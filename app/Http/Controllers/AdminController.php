@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use function view;
 
 class AdminController extends Controller
 {
@@ -13,6 +14,6 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        echo 'Admin logged in <a href="'.route("admin.logout").'">logout</a>';
+        return view('admin.dashboard');
     }
 }
