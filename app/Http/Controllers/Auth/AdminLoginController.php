@@ -4,44 +4,62 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use function redirect;
-use function route;
+use Auth;
 
 class AdminLoginController extends Controller
 {
-    /**
-     * AdminLoginController constructor.
-     */
+
     public function __construct()
     {
-        $this->middleware('guest:admin');
+        $this->middleware('guest:admin', ['except' => ['logout']]);
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function showLoginForm()
     {
-        return view('admin.auth.login');
+        return view('auth.admin-login');
     }
 
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 
         $this->validate($request, [
-            'email' =>  'required|email',
-            'password'  =>  'required|min:6'
+            'email'   => 'required|email',
+            'password' => 'required|min:4'
         ]);
 
-        if( Auth::guard('admin')->attempt(['email'=>$request->email, 'password'=>$request->password], $request->remember) ) {
-            return redirect()->intended( route('admin.dashboard') );
+
+
+        // Attempt to log the provider in
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+
+            // if successful, then redirect to their intended location
+            return redirect()->intended(route('admin.dashboard'));
         }
 
-        return redirect()->back()->withInput($request->only('email','remember'));
+        // if unsuccessful, then redirect back to the login with the form data
+        return redirect()->back()->withInput($request->only('email', 'remember'));
+    }
 
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        return redirect('/');
     }
 }

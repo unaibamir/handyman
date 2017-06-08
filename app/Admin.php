@@ -4,21 +4,13 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Kodeine\Metable\Metable as Matable;
 
 class Admin extends Authenticatable
 {
     use Notifiable;
-    use Matable;
 
-    /**
-     *  The Admin modal guard
-     *
-     *  @var variable
-     */
 
     protected $guard = 'admin';
-
 
     /**
      * The attributes that are mass assignable.
