@@ -27,6 +27,23 @@ Route::prefix('admin')->group(function() {
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::get('/','AdminController@dashboard')->name('admin.dashboard');
 
+    /**
+    *  Admin Client Routes
+     */
+    Route::resource('client', 'AdminController', [
+        'except' => ['show'],
+        'names' => [
+            'store'     => 'admin.client.store',
+            'index'     => 'admin.client.index',
+            'create'    => 'admin.client.create',
+            'destroy'   => 'admin.client.destroy',
+            'update'    => 'admin.client.update',
+            'edit'      => 'admin.client.edit',
+        ]
+    ]);
+
+    Route::post('client', 'AdminController@filter_client')->name('admin.client.filter');
+
 });
 
 Route::prefix('client')->group(function() {
