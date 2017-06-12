@@ -25,12 +25,12 @@ Route::prefix('admin')->group(function() {
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
-    Route::get('/','AdminController@dashboard')->name('admin.dashboard');
+    Route::get('/','Admin\AdminController@dashboard')->name('admin.dashboard');
 
     /**
     *  Admin Client Routes
      */
-    Route::resource('client', 'AdminController', [
+    Route::resource('client', 'Admin\ClientController', [
         'except' => ['show'],
         'names' => [
             'store'     => 'admin.client.store',
@@ -41,8 +41,23 @@ Route::prefix('admin')->group(function() {
             'edit'      => 'admin.client.edit',
         ]
     ]);
+    Route::post('client', 'Admin\ClientController@filter_client')->name('admin.client.filter');
 
-    Route::post('client', 'AdminController@filter_client')->name('admin.client.filter');
+    /**
+     * Admin Provider Routes
+    */
+    Route::resource('provider', 'Admin\ProviderController', [
+        'except' => ['show'],
+        'names' => [
+            'store'     => 'admin.provider.store',
+            'index'     => 'admin.provider.index',
+            'create'    => 'admin.provider.create',
+            'destroy'   => 'admin.provider.destroy',
+            'update'    => 'admin.provider.update',
+            'edit'      => 'admin.provider.edit',
+        ]
+    ]);
+    Route::post('provider', 'Admin\ProviderController@filter_provider')->name('admin.provider.filter');
 
 });
 

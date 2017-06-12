@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('page_title', 'Clients');
+@section('page_title', 'Clients')
 
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
