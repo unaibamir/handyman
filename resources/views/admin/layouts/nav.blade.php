@@ -2,7 +2,7 @@
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
-                <div class="dropdown profile-element">
+                <div class="dropdown profile-element text-center">
                     <span>
                         <img alt="image" class="img-circle" src="{{ asset('img/profile_small.jpg') }}" />
                     </span>

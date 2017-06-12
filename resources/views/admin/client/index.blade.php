@@ -6,6 +6,7 @@
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Clients</h2>
+            <a href="{{ route('admin.client.create') }}" class="btn btn-primary">Add New Client</a>
         </div>
         <div class="col-lg-2">
 
@@ -59,99 +60,52 @@
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-content">
+                        @if( !empty($clients) )
                         <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                             <thead>
                                 <tr>
                                     <th data-toggle="true">No. </th>
+                                    <th data-hide="phone">Date</th>
                                     <th>Name</th>
                                     <th data-hide="phone">Username</th>
                                     <th data-hide="phone">Email</th>
-                                    <th data-hide="phone,tablet" >Quantity</th>
                                     <th data-hide="phone">Status</th>
                                     <th class="text-right" data-sort-ignore="true">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Example product 1
-                                    </td>
-                                    <td>
-                                        Model 1
-                                    </td>
-                                    <td>
-                                        making it look like readable English.
-                                    </td>
-                                    <td>
-                                        $50.00
-                                    </td>
-                                    <td>
-                                        1000
-                                    </td>
-                                    <td>
-                                        <span class="label label-primary">Enable</span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <button class="btn-white btn btn-xs">View</button>
-                                            <button class="btn-white btn btn-xs">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Example product 2
-                                    </td>
-                                    <td>
-                                        Model 2
-                                    </td>
-                                    <td>
-                                        making it look like readable English.
-                                    </td>
-                                    <td>
-                                        $40.00
-                                    </td>
-                                    <td>
-                                        4300
-                                    </td>
-                                    <td>
-                                        <span class="label label-primary">Enable</span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <button class="btn-white btn btn-xs">View</button>
-                                            <button class="btn-white btn btn-xs">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Example product 3
-                                    </td>
-                                    <td>
-                                        Model 3
-                                    </td>
-                                    <td>
-                                        making it look like readable English.
-                                    </td>
-                                    <td>
-                                        $22.00
-                                    </td>
-                                    <td>
-                                        300
-                                    </td>
-                                    <td>
-                                        <span class="label label-danger">Disabled</span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <button class="btn-white btn btn-xs">View</button>
-                                            <button class="btn-white btn btn-xs">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
+
+                                @foreach( $clients as $client )
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($client->created_at)) }}</td>
+                                        <td>{{ $client->fname . ' ' . $client->lname }}</td>
+                                        <td>{{ $client->username }}</td>
+                                        <td>{{ $client->email }}</td>
+                                        <td>
+                                            @if( $client->is_active == 1 )
+                                                <span class="label label-primary">Active</span>
+                                            @else
+                                                <span class="label label-danger">Disabled</span>
+                                            @endif
+                                        </td>
+
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <button class="btn-white btn btn-xs">View</button>
+                                                <button class="btn-white btn btn-xs">Edit</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
+
+                            <div class="text-right">
+                                {{ $clients->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -164,7 +118,7 @@
     <script>
         $(document).ready(function() {
 
-            $('.footable').footable();
+            $('.footable').footable({ paginate:false });
 
         });
     </script>

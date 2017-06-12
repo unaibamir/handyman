@@ -14,7 +14,7 @@ class ClientsTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        for($i = 0; $i < 10; $i++) {
+        for($i = 0; $i < 15; $i++) {
             Client::create([
                 'username' => $faker->userName,
                 'email' => $faker->email,
@@ -28,8 +28,8 @@ class ClientsTableSeeder extends Seeder
                 'state'     =>  $faker->state,
                 'country'   =>  $faker->country,
                 'zipcode'   =>  $faker->postcode,
-                'is_active'   => 1,
-                'is_approved'   =>  0,
+                'is_active'   => $faker->boolean(50),
+                'is_approved'   =>  $faker->boolean(50),
             ]);
         }
     }

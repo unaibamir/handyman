@@ -31,7 +31,6 @@ Route::prefix('admin')->group(function() {
     *  Admin Client Routes
      */
     Route::resource('client', 'Admin\ClientController', [
-        'except' => ['show'],
         'names' => [
             'store'     => 'admin.client.store',
             'index'     => 'admin.client.index',
@@ -39,14 +38,15 @@ Route::prefix('admin')->group(function() {
             'destroy'   => 'admin.client.destroy',
             'update'    => 'admin.client.update',
             'edit'      => 'admin.client.edit',
+            'show'      => 'admin.client.show',
         ]
     ]);
-    Route::post('client', 'Admin\ClientController@filter_client')->name('admin.client.filter');
+    Route::post('client/filter', 'Admin\ClientController@filter_client')->name('admin.client.filter');
 
     /**
      * Admin Provider Routes
     */
-    Route::resource('provider', 'Admin\ProviderController', [
+    /*Route::resource('provider', 'Admin\ProviderController', [
         'except' => ['show'],
         'names' => [
             'store'     => 'admin.provider.store',
@@ -57,7 +57,7 @@ Route::prefix('admin')->group(function() {
             'edit'      => 'admin.provider.edit',
         ]
     ]);
-    Route::post('provider', 'Admin\ProviderController@filter_provider')->name('admin.provider.filter');
+    Route::post('provider', 'Admin\ProviderController@filter_provider')->name('admin.provider.filter');*/
 
 });
 

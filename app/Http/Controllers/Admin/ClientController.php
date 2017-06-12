@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Client;
 use App\Provider;
+use CountryState;
 
 class ClientController extends Controller
 {
@@ -24,7 +25,14 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return view('admin.client.index');
+        $clients = Client::paginate(10);
+
+
+        $data = array();
+        $data['clients']    =  $clients;
+
+
+        return view('admin.client.index')->with($data);
     }
 
     /**
@@ -34,7 +42,12 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        $states = CountryState::getStates('US');
+
+
+        $data = array();
+        $data['states']     =  $states;
+        return view('admin.client.create')->with($data);
     }
 
     /**
@@ -100,6 +113,7 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      * */
     public function filter_client( Request $request ) {
+        // TODO
         return view('admin.client.index');
     }
 }
