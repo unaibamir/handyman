@@ -38,19 +38,15 @@
     <!-- Mainly scripts -->
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA"></script>
     <script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
     <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
-
-    <!-- Custom and plugin javascript -->
     <script src="{{ asset('js/inspinia.js') }}"></script>
     <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
-
-    <!-- jQuery UI -->
     <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <!-- FooTable -->
     <script src="{{ asset('js/plugins/footable/footable.all.min.js') }}"></script>
-
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-gmaps-latlon-picker.js') }}"></script>
     <script src="{{ asset('js/functions.js') }}"></script>
     @yield('scripts')
 </body>
