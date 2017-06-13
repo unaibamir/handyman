@@ -52,7 +52,8 @@ class ClientLoginController extends Controller
         }
 
         // if unsuccessful, then redirect back to the login with the form data
-        return redirect()->back()->withInput($request->only('email', 'remember'));
+        /*return redirect()->back()->withInput($request->only('login', 'remember'));*/
+        return $this->sendFailedLoginResponse($request);
     }
 
     /**
@@ -64,6 +65,13 @@ class ClientLoginController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('client')->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect('/');
+
         return redirect('/');
     }
 
@@ -94,4 +102,24 @@ class ClientLoginController extends Controller
         /*return 'email';*/
         return 'login';
     }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $errors = [$this->username() => trans('auth.failed')];
+
+        if ($request->expectsJson()) {
+            return response()->json($errors, 422);
+        }
+
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors($errors);
+    }
+
 }
