@@ -34,14 +34,19 @@ class ClientLoginController extends Controller
     {
 
         $this->validate($request, [
-            'email'   => 'required|email',
+            'login'   => 'required|min:4|string',
             'password' => 'required|min:4'
         ]);
 
 
 
         // Attempt to log the client in
-        if (Auth::guard('client')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        /*if (Auth::guard('client')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            // if successful, then redirect to their intended location
+            return redirect()->intended(route('client.dashboard'));
+        }*/
+
+        if (Auth::guard('client')->attempt( $this->credentials($request), $request->has('remember') )) {
             // if successful, then redirect to their intended location
             return redirect()->intended(route('client.dashboard'));
         }
@@ -60,5 +65,33 @@ class ClientLoginController extends Controller
     {
         Auth::guard('client')->logout();
         return redirect('/');
+    }
+
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        /*return $request->only($this->username(), 'password');*/
+        $field = filter_var($request->input($this->username()), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $request->merge([$field => $request->input($this->username())]);
+
+        return $request->only($field, 'password');
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        /*return 'email';*/
+        return 'login';
     }
 }
