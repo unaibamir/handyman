@@ -16,33 +16,40 @@
 
 
         <div class="ibox-content m-b-sm border-bottom">
-            <div class="row">
+
                 <form action="{{ route('admin.client.filter') }}" method="POST">
+                <div class="row">
                     {{ csrf_field() }}
                     <input type="hidden" name="form_name" value="client_filter">
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
                         <div class="form-group">
-                            <label class="control-label" for="client_name">Client Name</label>
+                            <label class="control-label" for="client_name">Name</label>
                             <input type="text" id="client_name" name="client_name" value="" placeholder="Client Name" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label" for="client_name">Username</label>
+                            <input type="text" id="client_name" name="username" value="" placeholder="Username" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
                         <div class="form-group">
                             <label class="control-label" for="client_email">Email</label>
                             <input type="email" id="client_email" name="client_email" value="" placeholder="Email" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
                         <div class="form-group">
                             <label class="control-label" for="status">Status</label>
-                            <select name="is_approved" id="status" class="form-control">
+                            <select name="is_approved" id="status" class="form-control select2">
                                 <option value="1" selected>Approved</option>
                                 <option value="0">Not Approved</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 col-md-3 col-lg-3 pull-right">
                         <div class="form-group">
                             <label class="control-label" for="status">Filter</label>
                             <div class="form-group">
@@ -51,8 +58,10 @@
 
                         </div>
                     </div>
+
+                </div>
                 </form>
-            </div>
+
 
         </div>
 
@@ -60,6 +69,9 @@
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-content">
+
+                        @include('admin.layouts._notice')
+
                         @if( !empty($clients) )
                         <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                             <thead>
@@ -69,7 +81,8 @@
                                     <th>Name</th>
                                     <th data-hide="phone">Username</th>
                                     <th data-hide="phone">Email</th>
-                                    <th data-hide="phone">Status</th>
+                                    <th data-hide="phone,tablet">Status</th>
+                                    <th data-hide="phone,tablet">Approved</th>
                                     <th class="text-right" data-sort-ignore="true">Action</th>
                                 </tr>
                             </thead>
@@ -90,10 +103,35 @@
                                             @endif
                                         </td>
 
+                                        <td>
+                                            @if( $client->is_approved == 1 )
+                                                <span class="label label-primary">Yes</span>
+                                            @else
+                                                <span class="label label-danger">No</span>
+                                            @endif
+                                        </td>
+
                                         <td class="text-right">
                                             <div class="btn-group">
-                                                <button class="btn-white btn btn-xs">View</button>
-                                                <button class="btn-white btn btn-xs">Edit</button>
+                                                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">Action <span class="caret"></span></button>
+                                                <ul class="dropdown-menu" style="right:0;left:inherit;">
+                                                    <li>
+                                                        @if( $client->is_active == 1 )
+                                                            <a href="{{ route('admin.client.disapprove', $client->id) }}">Deactivate</a>
+                                                        @else
+                                                            <a href="{{ route('admin.client.approve', $client->id) }}">Activate</a>
+                                                        @endif
+                                                    </li>
+                                                    <!-- TODO -->
+                                                    <li><a href="#">View All Requests</a></li>
+                                                    <li><a href="{{ route('admin.client.edit', $client->id) }}">Edit</a></li>
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a href="{{ route('admin.client.destroy', $client->id) }}" id="{{$client->id}}" class="delete_client" data-token="{{ csrf_token() }}">
+                                                            Delete
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </td>
                                     </tr>
@@ -115,11 +153,9 @@
 
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+$(document).ready(function() {
 
-            $('.footable').footable({ paginate:false });
-
-        });
-    </script>
+});
+</script>
 @endsection

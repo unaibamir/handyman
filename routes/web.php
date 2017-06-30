@@ -42,6 +42,8 @@ Route::prefix('admin')->group(function() {
         ]
     ]);
     Route::post('client/filter', 'Admin\ClientController@filter_client')->name('admin.client.filter');
+    Route::get('client/approve/{id}', 'Admin\ClientController@getApprove')->name('admin.client.approve');
+    Route::get('client/disapprove/{id}', 'Admin\ClientController@getDisApprove')->name('admin.client.disapprove');
 
     /**
      * Admin Provider Routes

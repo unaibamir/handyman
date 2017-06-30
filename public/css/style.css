@@ -8560,3 +8560,7 @@ body.md-skin {
     margin: 0;
   }
 }
+
+.select2-container {
+  width: 100% !important;
+}

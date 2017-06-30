@@ -213,6 +213,14 @@ $.fn.gMapsLatLonPicker = (function() {
 				performSearch( $(object).attr('string'), true );
 			});
 
+            // Search function by typing location
+            $(_self.vars.cssID + ".gllpSearchField").bind("change", function() {
+                setTimeout(function(){
+                    performSearch( $(_self.vars.cssID + ".gllpSearchField").val(), false );
+				}, 1000);
+
+            });
+
 			// Zoom function triggered by gllp_perform_zoom listener
 			$(document).bind("gllp_update_fields", function(event) {
 				var lat = $(_self.vars.cssID + ".gllpLatitude").val();

@@ -29,7 +29,11 @@
                         <h5>Client Information</h5>
                     </div>
                     <div class="ibox-content">
+
+                        @include('admin.layouts._notice')
+
                         <form method="post" class="form-horizontal validate_form" action="{{ route('admin.client.store') }}" enctype="multipart/form-data">
+
                             {{ csrf_field() }}
 
                             <div class="form-group"><label class="col-sm-2 control-label">First Name <small class="text-danger"><sup>*</sup></small></label>
@@ -46,9 +50,23 @@
                             </div>
                             <div class="hr-line-dashed"></div>
 
+                            <div class="form-group"><label class="col-sm-2 control-label">Username <small class="text-danger"><sup>*</sup></small></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="username" requried>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
                             <div class="form-group"><label class="col-sm-2 control-label">Email <small class="text-danger"><sup>*</sup></small></label>
                                 <div class="col-sm-10">
                                     <input type="email" class="form-control" name="email" required>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group"><label class="col-sm-2 control-label">Password <small class="text-danger"><sup>*</sup></small></label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" name="password" requried>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -84,30 +102,51 @@
                             <div class="form-group"><label class="col-sm-2 control-label">State</label>
                                 <div class="col-sm-10">
                                     <select class="form-control m-b select2" name="state">
-                                        <option value="">Please select</option>
+                                        {{--<option value="">Please select</option>--}}
                                         @foreach($states as $short => $name)
-                                            <option value="{{ $short }}">{{ $name }}</option>
+                                            <option value="{{ $name }}">{{ $name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
 
-                            <div class="form-group"><label class="col-sm-2 control-label">State</label>
+                            <div class="form-group"><label class="col-sm-2 control-label">Country</label>
                                 <div class="col-sm-10">
                                     <select class="form-control m-b select2" name="country">
-                                        <option value="US">United States of America</option>
+                                        <option value="United States of America">United States of America</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
 
-                            <div class="form-group"><label class="col-sm-2 control-label">Postal Code</label>
+                            <div class="form-group"><label class="col-sm-2 control-label">Postal Code <small class="text-danger"><sup>*</sup></small></label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="postcode">
+                                    <input type="text" class="form-control" name="postcode" required>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
+
+
+
+                            <div class="form-group"><label class="col-sm-2 control-label">Location <small class="text-danger"><sup>*</sup></small></label>
+                                <div class="col-sm-10">
+                                    <fieldset class="gllpLatlonPicker" id="custom_id">
+                                        <div class="input-group">
+                                            <input type="text" class="gllpSearchField form-control" required name="location">
+                                            <span class="input-group-btn" style="vertical-align: top;">
+                                                <button type="button" class="gllpSearchButton btn btn-primary">Search!</button>
+                                            </span>
+                                        </div>
+
+
+                                        <div class="gllpMap" style="height: 300px;">Google Maps</div>
+                                        <input type="hidden" name="latitude" class="gllpLatitude" value="52" />
+                                        <input type="hidden" name="longitude" class="gllpLongitude" value="1"/>
+                                        <input type="hidden" class="gllpZoom" value="12"/>
+                                    </fieldset>
+                                </div>
+                            </div>
 
 
 
@@ -135,5 +174,17 @@
     <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
     <script>
         $(".validate_form").validate();
+
+        $(".gllpLatlonPicker").each(function() {
+            $obj = $(document).gMapsLatLonPicker();
+
+            $obj.params.strings.markerText = "Drag this Marker (example edit)";
+
+            $obj.params.displayError = function(message) {
+                console.log("MAPS ERROR: " + message); // instead of alert()
+            };
+
+            $obj.init( $(this) );
+        });
     </script>
     @endsection

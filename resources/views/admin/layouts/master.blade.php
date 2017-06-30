@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>@yield('page_title') | {{ config('app.name') }} Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     @yield('meta')
 
@@ -12,6 +13,7 @@
     <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/plugins/footable/footable.core.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -46,6 +48,7 @@
     <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/plugins/footable/footable.all.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/jquery-gmaps-latlon-picker.js') }}"></script>
     <script src="{{ asset('js/functions.js') }}"></script>
     @yield('scripts')
