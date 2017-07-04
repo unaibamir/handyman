@@ -31,9 +31,13 @@
 /* Form */
 input.field{ border-radius:0px; height: 42px; border:none; box-shadow: 0 0 0 2px #e0e0e0; margin-bottom: 20px;}
 input.field:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
+input.field.error { box-shadow: 0 0 0 2px #d50000!important; }
+input.field.error + label.error { text-align: left !important;font-weight: 400;color: #d50000;float: left;position: relative;top: -15px;font-size: 12px; }
 
 select.option{ border-radius:0px; height: 42px; border:none; box-shadow: 0 0 0 2px #e0e0e0; margin-bottom: 20px;}
 select.option:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
+select.option.error { box-shadow: 0 0 0 2px #d50000!important; }
+select.option.error + label.error { text-align: left !important;font-weight: 400;color: #d50000;float: left;position: relative;top: -15px;font-size: 12px; }
 
 .btn-default {
     color: #37a000;

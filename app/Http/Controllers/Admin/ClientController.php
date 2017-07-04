@@ -11,7 +11,6 @@ use App\Provider;
 use CountryState;
 use Input;
 use Image;
-use function route;
 use Validator;
 
 class ClientController extends Controller

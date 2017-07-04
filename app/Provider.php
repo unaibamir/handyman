@@ -11,7 +11,6 @@ class Provider extends Authenticatable
     use Notifiable;
     use Metable;
 
-
     protected $guard = 'provider';
 
     protected $metaTable = 'providers_meta';
@@ -33,4 +32,10 @@ class Provider extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function jobtype()
+    {
+        return $this->belongsTo('App\JobType','jobtype_id', 'id');
+    }
 }

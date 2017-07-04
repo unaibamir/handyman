@@ -11,14 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('pages.home');
-});
+Route::get('/', 'PagesController@getHomepage')->name('homepage');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('signup', 'PagesController@getSignup_link')->name('signup-link');
+
+Route::get('signup/handyman', 'PagesController@getSignup_handyman')->name('signup-handyman');
+Route::post('signup/handyman', 'PagesController@postSignup_handyman')->name('signup-handyman-post');
+
+Route::get('signup/homeowner', 'PagesController@getSignup_homeowner')->name('signup-homeowner');
+Route::post('signup/homeowner', 'PagesController@postSignup_homeowner')->name('signup-homeowner-post');
 
 Route::prefix('admin')->group(function() {
 
@@ -78,6 +83,6 @@ Route::prefix('provider')->group(function() {
     Route::get('/login', 'Auth\ProviderLoginController@showLoginForm')->name('provider.login');
     Route::post('/login', 'Auth\ProviderLoginController@login')->name('provider.login.submit');
     Route::get('/logout', 'Auth\ProviderLoginController@logout')->name('provider.logout');
-    Route::get('/','ProviderController@dashboard')->name('provider.dashboard');
+    Route::get('/','Provider\ProviderController@dashboard')->name('provider.dashboard');
 
 });

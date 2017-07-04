@@ -9,7 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/main.css?ver='.time()) }}" rel="stylesheet">
    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +30,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><img src="images/logo.png" width="100%" alt=""/></a>
+          <a class="navbar-brand" href="{{ route('homepage') }}"><img src="{{ asset('images/logo.png') }}" width="100%" alt=""/></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -43,14 +43,14 @@
           </form>
           
           <ul class="nav navbar-nav">
-            <li class=""><a href="#">Home <span class="sr-only">(current)</span></a></li>
+            <li class=""><a href="{{ route('homepage') }}">Home <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Products</a></li>
             <li><a href="#">Company</a></li>
             <li><a href="#">Blog</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fa fa-pencil"></i> Sign up</a></li>
+            <li><a href="{{ route('signup-link') }}"><i class="fa fa-pencil"></i> Sign up</a></li>
             <li><a href="#"><i class="fa fa-sign-in"></i> Login</a></li>
             
           </ul>
@@ -64,7 +64,7 @@
 
 
 
-  <section class="page-footer ng-scope">
+<section class="page-footer ng-scope">
   <div class="container">
   <div class="footer-sitemap">
   <div class="row ng-isolate-scope accordion-footer">
@@ -74,7 +74,7 @@
         Company Info
       </h4>
       <ul class="list-unstyled text-short content" style="max-height: 301px;">
-        <li><a href="#">Home</a></li>
+        <li><a href="{{ route('homepage') }}">Home</a></li>
         <li><a href="#">About us</a></li>
         <li><a href="#">Products</a></li>
         <li><a href="#">Compaines</a></li>
@@ -147,9 +147,10 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA&libraries=places"></script>
+
+    @yield('scripts')
     <script>
     carouselNext = function() {
       $('#carousel-main').carousel('next');
