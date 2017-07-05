@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('page_title', 'Home Owner Login')
+
 @section('content')
 
     <section class="signup-page">
