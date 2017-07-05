@@ -16,11 +16,15 @@ class PagesController extends Controller
 		return view('pages.home');
 	}
 
-    public function getSignup_link() {
+    public function getLoginMain(){
+	    return view('pages.login-main');
+    }
+
+    public function getSignupMain() {
     	return view('pages.signup');
     }
 
-    public function getSignup_handyman(Request $request) {
+    public function getSignupHandyman(Request $request) {
 	    $jobtypes = JobType::where('status', '=' , 1)->get();
 	    $data = [
 	        'page_title'    =>  'HandyMan Sign Up',
@@ -32,7 +36,7 @@ class PagesController extends Controller
     	return view('pages.signup-handyman')->with('data', $data );
     }
 
-    public function postSignup_handyman(Request $request) {
+    public function postSignupHandyman(Request $request) {
         $area_work_coord = GMGetCoordinates($request->area_work);
 
         if ( Provider::where('email', '=', $request->email)->exists() ) {
@@ -81,11 +85,11 @@ class PagesController extends Controller
     }
 
 
-    public function getSignup_homeowner() {
+    public function getSignupHomeowner() {
         return view('pages.signup-homeowner')->with('page_title', 'Home Owner Signup');
     }
 
-    public function postSignup_homeowner(Request $request) {
+    public function postSignupHomeowner(Request $request) {
 
     	if ( Client::where('email', '=', $request->email)->exists() ) {
             $request->session()->flash('error', '<strong>Snap!</strong> This email already exists!');

@@ -28,7 +28,6 @@
 		font-weight: 400;
 	}
 
-/* Form */
 input.field{ border-radius:0px; height: 42px; border:none; box-shadow: 0 0 0 2px #e0e0e0; margin-bottom: 20px;}
 input.field:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
 input.field.error { box-shadow: 0 0 0 2px #d50000!important; }
@@ -62,6 +61,8 @@ select.option.error + label.error { text-align: left !important;font-weight: 400
 	width: 100%;
 	margin: 30px 0 0 0;
 }
+.btn-filter{box-shadow: 0 0 0 2px #e0e0e0; border: 0px; width: 100%;}
+.btn-filter:hover{ background:#37a000; color:#FFF !important;}
 .btn {
     padding: 10px 38px;
 	border-radius: 0px !important;
@@ -309,6 +310,170 @@ a.circle {
 .login-box label{ font-size:13px;}
 .login-box p{ font-size:13px; padding: 5px 0 0 0;}
 
+
+/* Job Listing */
+.avatar {
+    object-fit: cover;
+}
+.avatar, .img-circle {
+    border-radius: 50%;
+}
+.avatar-xs {
+    width: 30px;
+    height: 30px;
+    margin: 10px 20px;
+    padding: 0;
+}
+.noti-icon{ padding:11px 10px !important;}
+.dropdown a{ font-size: 14px; color: #7d7d7d;}
+
+.air-card {
+    -webkit-box-shadow: 0 0 0 2px #e0e0e0;
+    box-shadow: 0 0 0 2px #e0e0e0;
+    background-color: #fff;
+    margin: 40px 0 0 0px;
+    padding: 40px 20px;
+}
+.job-listing{ margin:0px;}
+.job-listing:hover{ box-shadow: 0 0 0 2px #37a000;
+    background-color: #fff; z-index: 1; position: relative;}
+.job-listing h4 a{ color:#37a000;}
+.job-listing small{ font-size:13px;}
+.job-listing small span{ font-size:13px; margin-right: 10px;}
+.job-listing p{ padding:20px 0 0 0; font-size: 14px;}
+
+.dropdown label{ font-size:13px; font-weight: normal; padding: 6px 5px 0 10px;}
+p.rss-feeds{ font-size:14px; padding: 5px 0 0 0; margin-bottom: 0px;}
+.client-spendings { margin-right: 10px;}
+
+/*============= student profile rating Styles ===================*/
+.rating {
+  float: left;
+  width: 100%;
+  text-align: center;
+}
+
+.rating-num {
+  color: #333333;
+  font-size: 60px;
+  font-weight: 100;
+  line-height: 1em; 
+}
+
+.rating-stars {
+  font-size: 16px;
+  color: #E3E3E3;
+  margin-bottom: .5em;
+}
+.rating-stars .active {
+  color: #737373;
+}
+
+.rating-users {
+  font-size: 14px;
+}
+
+.histo {
+  float: left;
+  width: 100%;
+  font-size: 13px;
+}
+
+.histo-star {
+  float: left;
+  padding: 3px;
+
+}
+
+.histo-rate {
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+.bar-block {
+  margin-left: 5px;
+  color: black;
+  display: block;
+  float: left;
+  width: 75%;
+  position: relative;
+}
+
+.bar {
+  padding: 4px;
+  display: block;
+}
+
+#bar-five {
+  width: 100%;
+  background-color: #9FC05A;
+}
+
+#bar-four {
+  width: 100%;
+  background-color: #ADD633;
+}
+
+#bar-three {
+  width: 100%;
+  background-color: #FFD834;
+}
+
+#bar-two {
+  width: 100%;
+  background-color: #FFB234;
+}
+
+#bar-one {
+  width: 100%;
+  background-color: #FF8B5A;
+}
+
+.rating .stars {
+  margin: 0px 10px;
+}
+
+.rating .stars .star {
+  float: left;
+  padding: 0px 2px;
+  cursor: pointer;
+}
+
+.rating .stars .star:before {
+  font-family: 'FontAwesome';
+  content: '\f005';
+  color: #adadad;
+  font-size: 0.8em;
+}
+
+.rating .stars .star:hover:before,
+.rating .stars .star.to_rate:before,
+.rating .stars .star.rated:before {
+  color: #0ba04c;
+}
+
+.rating .stars .star.no_to_rate:before {
+  color: #d5d5d5;
+}
+
+.custom-padding{ padding: 40px 20px;}
+.custom-padding small{ font-size:70%;}
+.badge{ font-weight:400; font-size:11px; background: #ababab; margin-right: 5px;}
+
+.job-detail{ margin: 0px;}
+.job-detail p{ padding:10px 0 0px 0; font-size: 14px; margin-bottom: 0px;}
+.job-detail p span{ color:#000;}
+
+.post-listing{ border-top:#e5e5e5 solid 1px; padding: 15px 0px;}
+.post-listing h4 a{ color:#37a000; font-size:16px;}
+.post-listing small{ font-size:13px;}
+.post-listing small span{ font-size:13px; margin-right: 10px;}
+.post-listing p{ padding:0px 0 0 0; font-size: 14px;}
+
+.nopadding{ padding:0px;}
+p.m-md-bottom{ margin-top:20px; font-size: 14px;}
+
 /* Media quries */
 	
 			@media (min-width: 1328px){
@@ -337,6 +502,17 @@ a.circle {
     font-size: 58px;
 }
 			h2{ font-size:30px; padding: 0 0px; line-height: normal;}
+			.custom-padding{ padding:20px 0;}
+			.btn {
+    padding: 10px;
+    border-radius: 0px !important;
+}
+			.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 18px 12px;
+}
+			.btn-signup{ margin-top:10px;}
 			
 }
 		@media screen and (max-width: 736px) {
@@ -346,7 +522,7 @@ a.circle {
 		}
 
 		@media screen and (max-width: 480px) {
-			
+			.btn-default { width:100%; margin-top: 10px;}
 			.category-listing{ padding:0 15px;}
 			.category-listing ul li {
 			float: left;

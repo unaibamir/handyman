@@ -12,18 +12,16 @@
 */
 
 Route::get('/', 'PagesController@getHomepage')->name('homepage');
-
 Auth::routes();
-
+Route::get('login', 'PagesController@getLoginMain')->name('login.main');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('signup', 'PagesController@getSignupMain')->name('signup-link');
 
-Route::get('signup', 'PagesController@getSignup_link')->name('signup-link');
+Route::get('signup/handyman', 'PagesController@getSignupHandyman')->name('signup-handyman');
+Route::post('signup/handyman', 'PagesController@postSignupHandyman')->name('signup-handyman-post');
 
-Route::get('signup/handyman', 'PagesController@getSignup_handyman')->name('signup-handyman');
-Route::post('signup/handyman', 'PagesController@postSignup_handyman')->name('signup-handyman-post');
-
-Route::get('signup/homeowner', 'PagesController@getSignup_homeowner')->name('signup-homeowner');
-Route::post('signup/homeowner', 'PagesController@postSignup_homeowner')->name('signup-homeowner-post');
+Route::get('signup/homeowner', 'PagesController@getSignupHomeowner')->name('signup-homeowner');
+Route::post('signup/homeowner', 'PagesController@postSignupHomeowner')->name('signup-homeowner-post');
 
 Route::prefix('admin')->group(function() {
 

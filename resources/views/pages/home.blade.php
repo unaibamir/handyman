@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('page_title', 'Home')
+
 @section('content')
 
 <section class="__hero-section __mod-hr-long __mod-mega-title jumbotron jumbotron-xlg landing-hero with-cta bg-cloud
