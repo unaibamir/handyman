@@ -12,11 +12,14 @@
 */
 
 Route::get('/', 'PagesController@getHomepage')->name('homepage');
-Auth::routes();
-Route::get('login', 'PagesController@getLoginMain')->name('login.main');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('signup', 'PagesController@getSignupMain')->name('signup-link');
 
+Auth::routes();
+
+Route::get('login', 'PagesController@getLoginMain')->name('login.main');
+Route::get('register', 'PagesController@getSignupMain');
+
+Route::get('signup', 'PagesController@getSignupMain')->name('signup-link');
 Route::get('signup/handyman', 'PagesController@getSignupHandyman')->name('signup-handyman');
 Route::post('signup/handyman', 'PagesController@postSignupHandyman')->name('signup-handyman-post');
 
@@ -72,6 +75,10 @@ Route::prefix('client')->group(function() {
     Route::post('/login', 'Auth\ClientLoginController@login')->name('client.login.submit');
     Route::get('/logout', 'Auth\ClientLoginController@logout')->name('client.logout');
     Route::get('/','ClientController@dashboard')->name('client.dashboard');
+
+
+    Route::get('password/reset', 'Auth\ClientForgotPasswordController@showLinkRequestForm')->name('client.password.request');
+    Route::post('password/email', 'Auth\ClientForgotPasswordController@sendRequestLinkEmail')->name('client.password.request');
 
 });
 
