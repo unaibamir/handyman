@@ -25,6 +25,13 @@
             <li>
                 <a href="{{ route('admin.client.index')  }}"><i class="fa fa-users"></i> <span class="nav-label">Clients</span></a>
             </li>
+            <li>
+                <a href="{{ route('admin.handyman.index')  }}"><i class="fa fa-users"></i> <span class="nav-label">HandyMen</span></a>
+            </li>
+            <li>
+                <a href="{{ route('admin.category.index') }}"><i class="fa fa-tags"></i> <span class="nav-label">Categories</span></a>
+            </li>
+
 
         </ul>
 

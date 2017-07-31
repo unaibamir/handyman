@@ -23,8 +23,13 @@ Route::get('signup', 'PagesController@getSignupMain')->name('signup-link');
 Route::get('signup/handyman', 'PagesController@getSignupHandyman')->name('signup-handyman');
 Route::post('signup/handyman', 'PagesController@postSignupHandyman')->name('signup-handyman-post');
 
+
 Route::get('signup/homeowner', 'PagesController@getSignupHomeowner')->name('signup-homeowner');
 Route::post('signup/homeowner', 'PagesController@postSignupHomeowner')->name('signup-homeowner-post');
+
+Route::get('jobs/browse', 'JobsController@getBrowseJobsSimple')->name('job.browse');
+Route::get('jobs/{name?}/{id?}', 'JobsController@getSingleJobDetail')->name('job.single')->where(['id' => '[0-9]+', 'name' => '[a-z-_]+']);
+
 
 Route::prefix('admin')->group(function() {
 
@@ -48,24 +53,43 @@ Route::prefix('admin')->group(function() {
         ]
     ]);
     Route::post('client/filter', 'Admin\ClientController@filter_client')->name('admin.client.filter');
-    Route::get('client/approve/{id}', 'Admin\ClientController@getApprove')->name('admin.client.approve');
-    Route::get('client/disapprove/{id}', 'Admin\ClientController@getDisApprove')->name('admin.client.disapprove');
+    Route::get('client/activate/{id}', 'Admin\ClientController@getClientActivate')->name('admin.client.activate');
+    Route::get('client/deactivate/{id}', 'Admin\ClientController@getClientDeactivate')->name('admin.client.deactivate');
+    Route::get('client/approve/{id}', 'Admin\ClientController@getClientApprove')->name('admin.client.approve');
+
 
     /**
-     * Admin Provider Routes
+     * Admin Provider/Handyman Routes
     */
-    /*Route::resource('provider', 'Admin\ProviderController', [
+    Route::resource('handyman', 'Admin\ProviderController', [
         'except' => ['show'],
         'names' => [
-            'store'     => 'admin.provider.store',
-            'index'     => 'admin.provider.index',
-            'create'    => 'admin.provider.create',
-            'destroy'   => 'admin.provider.destroy',
-            'update'    => 'admin.provider.update',
-            'edit'      => 'admin.provider.edit',
+            'store'     => 'admin.handyman.store',
+            'index'     => 'admin.handyman.index',
+            'create'    => 'admin.handyman.create',
+            'destroy'   => 'admin.handyman.destroy',
+            'update'    => 'admin.handyman.update',
+            'edit'      => 'admin.handyman.edit',
         ]
     ]);
-    Route::post('provider', 'Admin\ProviderController@filter_provider')->name('admin.provider.filter');*/
+    Route::get('handyman/delete/{id}', 'Admin\ProviderController@delete')->name('admin.handyman.delete');
+    Route::post('handyman/filter', 'Admin\ProviderController@getFilterProvider')->name('admin.handyman.filter');
+    Route::get('handyman/activate/{id}', 'Admin\ProviderController@getProviderActivate')->name('admin.handyman.activate');
+    Route::get('handyman/deactivate/{id}', 'Admin\ProviderController@getProviderDeactivate')->name('admin.handyman.deactivate');
+    Route::get('handyman/approve/{id}', 'Admin\ProviderController@getProviderApprove')->name('admin.handyman.approve');
+
+    /* Admin Category Routes */
+    Route::resource('category', 'Admin\CategoryController', [
+        'except' => ['show'],
+        'names' => [
+            'store'     => 'admin.category.store',
+            'index'     => 'admin.category.index',
+            'create'    => 'admin.category.create',
+            'destroy'   => 'admin.category.destroy',
+            'update'    => 'admin.category.update',
+            'edit'      => 'admin.category.edit',
+        ]
+    ]);
 
 });
 

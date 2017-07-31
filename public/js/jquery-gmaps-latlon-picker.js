@@ -45,7 +45,8 @@ $.fn.gMapsLatLonPicker = (function() {
 			error_no_results : "Couldn't find coordinates for this place"
 		},
 		displayError : function(message) {
-			alert(message);
+			/*alert(message);*/
+            swal("Oops...", message, "error");
 		}
 	};
 
@@ -127,7 +128,7 @@ $.fn.gMapsLatLonPicker = (function() {
 			{"address": string},
 			function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
-					$(_self.vars.cssID + ".gllpZoom").val(11);
+					$(_self.vars.cssID + ".gllpZoom").val(12);
 					_self.vars.map.setZoom( parseInt($(_self.vars.cssID + ".gllpZoom").val()) );
 					setPosition( results[0].geometry.location );
 				} else {
@@ -217,7 +218,7 @@ $.fn.gMapsLatLonPicker = (function() {
             $(_self.vars.cssID + ".gllpSearchField").bind("change", function() {
                 setTimeout(function(){
                     performSearch( $(_self.vars.cssID + ".gllpSearchField").val(), false );
-				}, 1000);
+				}, 500);
 
             });
 

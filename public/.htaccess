@@ -19,5 +19,3 @@
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
 
-# Disable server signature
- ServerSignature Off

@@ -4,7 +4,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>@yield('page_title') | {{ config('app.name') }} Dashboard</title>
+    <title>@yield('page_title') {{ config('app.name') }} - Admin Dashboard</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     @yield('meta')
@@ -31,16 +31,14 @@
 
             @yield('content')
 
-
         </div>
-
-
+        
     </div>
 
     <!-- Mainly scripts -->
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY', 'AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA') }}&libraries=places"></script>
     <script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
     <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>

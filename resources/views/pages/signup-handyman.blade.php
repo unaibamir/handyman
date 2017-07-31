@@ -201,7 +201,7 @@
         autocomplete = new google.maps.places.Autocomplete(
         /** @type {!HTMLInputElement} */ (
             document.getElementById('area_work')), {
-            types: ['(regions)'],
+            types: [],
             componentRestrictions: countryRestrict
         });
 

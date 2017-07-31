@@ -10,6 +10,7 @@
 
     <!-- Bootstrap -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('front/css/plugins/select2/select2.min.css') }}">
     <link href="{{ asset('assets/css/main.css?ver='.time()) }}" rel="stylesheet">
    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -44,16 +45,14 @@
           </form>
           
           <ul class="nav navbar-nav">
-            <li class=""><a href="{{ route('homepage') }}">Home <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Company</a></li>
-            <li><a href="#">Blog</a></li>
+            {{--<li class=""><a href="{{ route('homepage') }}">Home <span class="sr-only">(current)</span></a></li>--}}
+            <li><a href="{{ route('job.browse') }}">Browse</a></li>
+            <li><a href="#">How it works</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ route('signup-link') }}"><i class="fa fa-pencil"></i> Sign up</a></li>
             <li><a href="{{ route('login.main') }}"><i class="fa fa-sign-in"></i> Login</a></li>
-            
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -133,7 +132,7 @@
         <li class=""><a title="" target="_blank" href="#"><i class="fa fa-instagram"></i></a></li>
       </ul>
       
-      <p class="text-center">© 2015 - 2017 Upwork Global Inc.</p>
+      <p class="text-center">© 2015 - 2017 Handyman Inc.</p>
       
       <div class="clearfix"></div>
     </div>
@@ -149,17 +148,11 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA&libraries=places"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY', 'AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA') }}&libraries=places"></script>
+    <script src="{{ asset('front/js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('front/js/functions.js') }}"></script>
     @yield('scripts')
-    <script>
-    carouselNext = function() {
-      $('#carousel-main').carousel('next');
-    }
-    carouselPrev = function() {
-      $('#carousel-main').carousel('prev');
-    }
-    </script>
+
     
   </body>
 </html>

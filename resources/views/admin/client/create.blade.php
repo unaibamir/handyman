@@ -73,7 +73,7 @@
 
                             <div class="form-group"><label class="col-sm-2 control-label">Bio</label>
                                 <div class="col-sm-10">
-                                    <textarea name="bio" class="form-control" cols="30" rows="10"></textarea>
+                                    <textarea name="bio" class="form-control" cols="30" rows="4"></textarea>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -122,14 +122,14 @@
 
                             <div class="form-group"><label class="col-sm-2 control-label">Postal Code <small class="text-danger"><sup>*</sup></small></label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="postcode" required>
+                                    <input type="number" class="form-control" name="postcode" id="postcode" required>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
 
 
 
-                            <div class="form-group"><label class="col-sm-2 control-label">Location <small class="text-danger"><sup>*</sup></small></label>
+                            {{--<div class="form-group"><label class="col-sm-2 control-label">Location <small class="text-danger"><sup>*</sup></small></label>
                                 <div class="col-sm-10">
                                     <fieldset class="gllpLatlonPicker" id="custom_id">
                                         <div class="input-group">
@@ -147,11 +147,9 @@
                                     </fieldset>
                                 </div>
                             </div>
+                            <div class="hr-line-dashed"></div>--}}
 
 
-
-
-                            <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
                                     <a href="{{ route('admin.client.index') }}"><button class="btn btn-white" type="button">Cancel</button></a>
@@ -171,20 +169,66 @@
 
 
 @section('scripts')
-    <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
-    <script>
-        $(".validate_form").validate();
+<script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
+<script>
+    $(".validate_form").validate({
+      rules: {
+        postcode: {
+          required: true,
+          number: true
+        }
+      }
+    });
 
-        $(".gllpLatlonPicker").each(function() {
-            $obj = $(document).gMapsLatLonPicker();
+    $(".gllpLatlonPicker").each(function() {
+        $obj = $(document).gMapsLatLonPicker();
 
-            $obj.params.strings.markerText = "Drag this Marker (example edit)";
+        $obj.params.strings.markerText = "Drag this Marker (example edit)";
 
-            $obj.params.displayError = function(message) {
-                console.log("MAPS ERROR: " + message); // instead of alert()
-            };
+        $obj.params.displayError = function(message) {
+            console.log("MAPS ERROR: " + message); // instead of alert()
+        };
 
-            $obj.init( $(this) );
+        $obj.init( $(this) );
+    });
+</script>
+
+<script>
+
+    var map, places, infoWindow;
+    var markers = [];
+    var autocomplete;
+    var countryRestrict = {'country': 'us'};
+    var MARKER_PATH = 'https://developers.google.com/maps/documentation/javascript/images/marker_green';
+    var hostnameRegexp = new RegExp('^https?://.+?/');
+
+    var countries = {
+        'us': {
+            center: {lat: 37.1, lng: -95.7},
+            zoom: 3
+        }
+    };
+
+    //initMap();
+
+    function initMap() {
+
+        autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('postcode')), {
+            types: ['(regions)'],
+            componentRestrictions: countryRestrict
         });
-    </script>
-    @endsection
+
+        autocomplete.addListener('place_changed', onPlaceChanged);
+    }
+
+    function onPlaceChanged() {
+        var place = autocomplete.getPlace();
+        if (place.geometry) {
+        } else {
+            document.getElementById('postcode').placeholder = 'Enter a postal code';
+        }
+    }
+
+</script>
+@stop

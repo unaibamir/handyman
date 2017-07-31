@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 
+
 class ClientLoginController extends Controller
 {
 
+    /**
+     * ClientLoginController constructor.
+     */
     public function __construct()
     {
         $this->middleware('guest:client', ['except' => ['logout']]);

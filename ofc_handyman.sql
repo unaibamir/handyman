@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2017 at 09:37 AM
+-- Generation Time: Jul 31, 2017 at 11:21 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -41,7 +41,23 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Admin', 'admin@admin.com', '$2y$10$6d1w6/iLxkCfbJAmxLagf.orO5aEd8oQ1TjdFgB0zyEXpgMEV5c1e', 'Di9pcuYoWj5J03SlXQiLxQZR2wrHFVbBDi0C3VfVF4CMTDTno9YQD9dMW1kj', '2017-06-08 03:58:31', '2017-06-08 03:58:31');
+(2, 'Admin', 'admin@admin.com', '$2y$10$6d1w6/iLxkCfbJAmxLagf.orO5aEd8oQ1TjdFgB0zyEXpgMEV5c1e', '03CzIZnnK2i5SxCeXpNqvz86tjeqBRWS6DwFgHK3hrEHyIB0v57Xl1x6D1xd', '2017-06-08 03:58:31', '2017-06-08 03:58:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -79,14 +95,11 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `username`, `email`, `password`, `fname`, `lname`, `latitude`, `longitude`, `user_image`, `bio`, `location`, `address`, `phone`, `city`, `state`, `country`, `postcode`, `is_active`, `is_approved`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 'client', 'client@client.com', '$2y$10$AzAiyXtcLUgybW9HjNbMm.S1S4XAHFG8GHH8YW7pp8cwt3mXs1HSy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'j9N8iFdPwf2paMUVV2WdSZicas6bZCMZRDQGJJVQLzc6mwjJ6qXUqk76aISV', '2017-06-07 05:49:06', '2017-06-07 05:49:06'),
-(4, 'hlittel', 'qmccullough@hotmail.com', '$2y$10$mnESmqrE6BK4mMC5BC8.ze8N.V1FDx.Khe/sFsQKf1qC9f8f9ckmG', 'Marilyne', 'Lemke', 67.65529100, 98.96904100, 'clients/images/default.jpg', 'Quod sunt eaque molestiae eum distinctio totam dolores. Neque est voluptas voluptas. Expedita et ab aut aut autem id.', NULL, NULL, NULL, NULL, 'Arizona', 'Sudan', '71204-4768', 0, 0, NULL, '2017-06-12 02:35:36', '2017-06-13 07:18:51'),
-(6, 'stoltenberg.cheyanne', 'klemke@hotmail.com', '$2y$10$0BzHyx98B789as16A9tngem6Lv1kkW65ote3cFYleLVHruwVZTnWy', 'Drew', 'Powlowski', 62.51098900, 46.63916700, 'clients/images/default.jpg', 'Impedit quidem fuga animi omnis. Nesciunt temporibus quo rerum placeat. Minima enim delectus molestias voluptatem est harum.', NULL, NULL, NULL, NULL, 'Arkansas', 'Mauritania', '87665-5766', 0, 0, NULL, '2017-06-12 02:35:36', '2017-06-13 07:18:59'),
-(7, 'schiller.teresa', 'mcdermott.gretchen@monahan.com', '$2y$10$EuSlB1RimmFacJN8K/CBs.rf3X7uHHZYG3SFiYBbNCxz8hiPwUCpC', 'Toney', 'Morissette', -84.99534800, 53.16282300, 'clients/images/default.jpg', 'Nihil sit quis dolorum minus qui quia eaque dolore. Laboriosam ea nobis omnis iste. Eaque non et sed at rerum nulla qui. Sit praesentium qui assumenda earum quam qui libero vel.', NULL, NULL, NULL, NULL, 'Massachusetts', 'Maldives', '52700-9843', 1, 0, NULL, '2017-06-12 02:35:36', '2017-06-13 07:24:27'),
-(10, 'jbeatty', 'waters.lilian@gmail.com', '$2y$10$u9et7OGIEEsiDOdSEsOc8u906R2yvM47DbClr3MF0GgtxzViIVzra', 'Brent', 'Spinka', -15.53582300, -102.99984900, 'clients/images/default.jpg', 'Consequuntur aut voluptatibus repellendus rerum sit iusto. Unde ullam aut voluptatem veritatis delectus animi enim repellat. Sed nemo quia delectus repudiandae.', NULL, NULL, NULL, NULL, 'Florida', 'Ireland', '31752', 1, 0, NULL, '2017-06-12 02:35:37', '2017-06-12 02:35:37'),
-(11, 'alisha.huels', 'ttowne@feest.com', '$2y$10$EeneHFXtmr8Qs0OkV01CCuBOifNQb98LIT6I6EZZDuZs0wrZRTtOO', 'Dejuan', 'Marks', 3.26688400, -125.10584000, 'clients/images/default.jpg', 'Praesentium adipisci laboriosam nam quae aut. Modi et dicta fugit voluptatem similique voluptate. Quia rerum explicabo corrupti repudiandae eos nihil.', NULL, NULL, NULL, NULL, 'Wisconsin', 'Mauritania', '58523-7950', 1, 0, NULL, '2017-06-12 02:35:37', '2017-06-12 02:35:37'),
-(14, 'unaibamir', 'u.amir@smartbaba.com', '$2y$10$CJy6rxFWGk.tKEwrigKxsep4zRMyQ9q0/T7lL8g8D3P7vBzypOnVK', 'Unaib', 'Amir', 33.56255630, 73.14997640, NULL, 'Test Bio', 'Street # 1, C Block Soan Gardens', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', '3216646236', 'Dallas', 'Taxas', 'United States of America', '75001', 0, 0, 'soPtoU6GTnC9C6u9WmSdJs205Z0y2Dt7tJLNjKRm1JqcEZXQND1Dcg7Gj5hq', '2017-06-13 05:25:09', '2017-06-13 05:25:09'),
-(15, 'unaibamiraziz@gmail.com', 'unaibamiraziz@gmail.com', '$2y$10$1Ag5Gi3pVOZW039g.9TXHObaJ41Ah81NRIfYTr5FZVmmDxp7th7oq', 'Unaib', 'Amir', NULL, NULL, NULL, NULL, NULL, 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', '3216646236', NULL, NULL, NULL, NULL, 0, 0, NULL, '2017-07-04 01:46:56', '2017-07-04 01:46:56');
+(3, 'client', 'client@client.com', '$2y$10$AzAiyXtcLUgybW9HjNbMm.S1S4XAHFG8GHH8YW7pp8cwt3mXs1HSy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'uZsOr5xVKAQB8dNHS1qVknK2sPZm50VQv1aKFqlKF4E41GdsHxjJJ7oV5nPO', '2017-06-07 05:49:06', '2017-06-07 05:49:06'),
+(4, 'hlittel', 'unaibamiraziz@gmail.com', '$2y$10$mnESmqrE6BK4mMC5BC8.ze8N.V1FDx.Khe/sFsQKf1qC9f8f9ckmG', 'Unaib', 'Amir', 32.31823140, -86.90229800, '/profiles/clients/1500638246_4.png', 'Quod sunt eaque molestiae eum distinctio totam dolores. Neque est voluptas voluptas. Expedita et ab aut aut autem id.', 'Alabama', 'house # 410, Street # 87, Sector G-11/3', '3216646236', 'Islamabad', 'Alabama', 'United States of America', '44000', 0, 0, NULL, '2017-06-12 02:35:36', '2017-07-24 00:53:25'),
+(7, 'schiller.teresa', 'mcdermott.gretchen@monahan.com', '$2y$10$EuSlB1RimmFacJN8K/CBs.rf3X7uHHZYG3SFiYBbNCxz8hiPwUCpC', 'Toney', 'Morissette', 28.06230110, -80.55520590, 'profiles/clients/default.png', 'Nihil sit quis dolorum minus qui quia eaque dolore. Laboriosam ea nobis omnis iste. Eaque non et sed at rerum nulla qui. Sit praesentium qui assumenda earum quam qui libero vel.', '123 6th St.  Melbourne, FL 32904', '123 6th St.  Melbourne, FL 32904', NULL, 'Melbourne', 'Florida', 'United States of America', '32904', 1, 1, NULL, '2017-06-12 02:35:36', '2017-07-24 01:22:10'),
+(14, 'unaibamir', 'u.amir@smartbaba.com', '$2y$10$CJy6rxFWGk.tKEwrigKxsep4zRMyQ9q0/T7lL8g8D3P7vBzypOnVK', 'Unaib', 'Amir', 33.56255630, 73.14997640, 'profiles/clients/default.png', 'Test Bio', 'Street # 1, C Block Soan Gardens', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', '3216646236', 'Dallas', 'Texas', 'United States of America', '75001', 0, 1, 'soPtoU6GTnC9C6u9WmSdJs205Z0y2Dt7tJLNjKRm1JqcEZXQND1Dcg7Gj5hq', '2017-06-13 05:25:09', '2017-07-24 00:49:51'),
+(16, 'test123', 'test123@test.com', '$2y$10$sVUZUmDDf.5FKi/eU3klG.Dcl4MkuGy206ywB8Z5zWloCylt3ItlS', 'Unaib', 'Amir', NULL, NULL, NULL, 'TEST BIO', NULL, 'house # 410, Street # 87, Sector G-11/3', '3216646236', 'Islamabad', 'Alabama', 'United States of America', '44000', 0, 0, NULL, '2017-07-25 02:57:33', '2017-07-25 02:57:33');
 
 -- --------------------------------------------------------
 
@@ -104,42 +117,13 @@ CREATE TABLE `clients_meta` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `jobtype`
+-- Dumping data for table `clients_meta`
 --
 
-CREATE TABLE `jobtype` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `jobtype`
---
-
-INSERT INTO `jobtype` (`id`, `name`, `status`, `icon`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Plumber', 1, NULL, 'plumber working people at lower rates', '2017-07-04 01:50:57', '2017-07-04 01:50:57');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jobtype_provider`
---
-
-CREATE TABLE `jobtype_provider` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `job_id` int(10) UNSIGNED NOT NULL,
-  `provider_id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `clients_meta` (`id`, `client_id`, `type`, `key`, `value`, `created_at`, `updated_at`) VALUES
+(1, 4, 'string', 'user_thumb', '/profiles/clients/1500638246_4-300x300.png', '2017-07-21 06:08:41', '2017-07-21 06:57:26'),
+(2, 3, 'string', 'qosi', 'no, not here', '2017-07-26 06:47:55', '2017-07-26 06:48:17');
 
 -- --------------------------------------------------------
 
@@ -174,9 +158,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2017_06_12_115346_add_phone_column_provider_table', 9),
 (22, '2017_06_13_081643_add_location_column_clients_table', 10),
 (23, '2017_06_13_081722_add_location_column_providers_table', 10),
-(24, '2017_06_30_092647_create_job_type_table', 11),
-(25, '2017_06_30_094842_create_job_type_provier_pivot_table', 11),
-(26, '2017_07_04_130154_add_jobtype_id_column_to_providers_table', 12);
+(26, '2017_07_31_061348_create_categories_migration_table', 11),
+(27, '2017_07_31_070648_drop_job_type_table', 12),
+(28, '2017_07_31_070936_drop_job_type_provider_table', 13);
 
 -- --------------------------------------------------------
 
@@ -235,9 +219,9 @@ CREATE TABLE `providers` (
 --
 
 INSERT INTO `providers` (`id`, `jobtype_id`, `username`, `email`, `password`, `fname`, `lname`, `latitude`, `longitude`, `user_image`, `bio`, `location`, `address`, `phone`, `city`, `state`, `country`, `postcode`, `is_active`, `is_approved`, `is_available`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, '', 'provider', 'provider@provider.com', '$2y$10$qMabM7E7Or9mYU/CzHCyVOj0dqAqe78LHhjgpHeK/TZ3sJl6wj0Qq', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 'mQPBiPVTTsq3lQdVTsmL6flrSayrWrLVdgDFLOXfjtrhmWB1OziH8JFXcR30', '2017-06-08 01:15:30', '2017-06-08 01:15:30'),
-(6, '1', 'unaibamiraziz@gmail.com', 'unaibamiraziz@gmail.com', '$2y$10$zNGSFmWDFoKY8/ZjBRESPOi213s.GgocGORSgkn5Hw3o3K29wPUBK', 'Unaib', 'Amir', 40.72822390, -73.79485160, NULL, NULL, 'Queens, NY, United States', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', NULL, NULL, NULL, 'us', NULL, 0, 0, 0, NULL, '2017-07-04 08:13:08', '2017-07-04 08:13:08'),
-(8, '1', 'unaibamiraziz@gmail.comm', 'unaibamiraziz@gmail.comm', '$2y$10$zNGSFmWDFoKY8/ZjBRESPOi213s.GgocGORSgkn5Hw3o3K29wPUBK', 'Unaib', 'Amir', 40.72822390, -73.79485160, NULL, NULL, 'Queens, NY, United States', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', NULL, NULL, NULL, 'us', NULL, 0, 0, 0, NULL, '2017-07-04 08:13:08', '2017-07-04 08:13:08');
+(1, '1', 'provider', 'provider@provider.com', '$2y$10$qMabM7E7Or9mYU/CzHCyVOj0dqAqe78LHhjgpHeK/TZ3sJl6wj0Qq', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0, 'mQPBiPVTTsq3lQdVTsmL6flrSayrWrLVdgDFLOXfjtrhmWB1OziH8JFXcR30', '2017-06-08 01:15:30', '2017-07-24 02:18:02'),
+(20, '1', 'unaibamiraziz@gmail.com', 'unaibamiraziz@gmail.com', '$2y$10$wnZZ63G/LcI8EGht5KhM2eXHlyPyclrgV25AUs5K5..LGSeE8fiDO', 'Unaib', 'Amir', 34.06533470, -118.24389100, NULL, NULL, 'Los Angeles, CA 90012, United States', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', NULL, NULL, NULL, 'us', NULL, 0, 0, 0, NULL, '2017-07-24 03:51:32', '2017-07-24 03:51:32'),
+(21, '1', 'unaibamiraziz@gmail.comm', 'unaibamiraziz@gmail.comm', '$2y$10$pTYcc7YjjncxPFUVcRJ2te8LKVnoEIgQpQBZ8QmZZeoJrgE1tsxvu', 'Unaib', 'Amir', 33.99332570, -118.39878420, NULL, NULL, 'Culver City, CA 90230, United States', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', NULL, NULL, NULL, 'us', NULL, 0, 1, 0, NULL, '2017-07-24 03:51:56', '2017-07-24 03:52:15');
 
 -- --------------------------------------------------------
 
@@ -260,7 +244,8 @@ CREATE TABLE `providers_meta` (
 --
 
 INSERT INTO `providers_meta` (`id`, `provider_id`, `type`, `key`, `value`, `created_at`, `updated_at`) VALUES
-(1, 6, 'string', 'bank_account', '00000-000', '2017-07-04 08:13:08', '2017-07-04 08:13:08');
+(13, 20, 'string', 'bank_account', '0000000', '2017-07-24 03:51:33', '2017-07-24 03:51:33'),
+(14, 21, 'string', 'bank_account', '000', '2017-07-24 03:51:56', '2017-07-24 03:51:56');
 
 -- --------------------------------------------------------
 
@@ -297,6 +282,12 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
@@ -311,20 +302,6 @@ ALTER TABLE `clients_meta`
   ADD PRIMARY KEY (`id`),
   ADD KEY `clients_table_client_id_index` (`client_id`),
   ADD KEY `clients_table_key_index` (`key`);
-
---
--- Indexes for table `jobtype`
---
-ALTER TABLE `jobtype`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `jobtype_provider`
---
-ALTER TABLE `jobtype_provider`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `jobtype_provider_job_id_foreign` (`job_id`),
-  ADD KEY `jobtype_provider_provider_id_foreign` (`provider_id`);
 
 --
 -- Indexes for table `migrations`
@@ -371,40 +348,35 @@ ALTER TABLE `users`
 ALTER TABLE `admins`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `clients_meta`
 --
 ALTER TABLE `clients_meta`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `jobtype`
---
-ALTER TABLE `jobtype`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `jobtype_provider`
---
-ALTER TABLE `jobtype_provider`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `providers`
 --
 ALTER TABLE `providers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `providers_meta`
 --
 ALTER TABLE `providers_meta`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -419,13 +391,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `clients_meta`
   ADD CONSTRAINT `clients_table_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `jobtype_provider`
---
-ALTER TABLE `jobtype_provider`
-  ADD CONSTRAINT `jobtype_provider_job_id_foreign` FOREIGN KEY (`job_id`) REFERENCES `jobtype` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `jobtype_provider_provider_id_foreign` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `providers_meta`

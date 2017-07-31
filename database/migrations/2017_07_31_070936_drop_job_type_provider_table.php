@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddJobtypeIdColumnToProvidersTable extends Migration
+class DropJobTypeProviderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddJobtypeIdColumnToProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::table('providers', function (Blueprint $table) {
-            $table->string('jobtype_id')->ununsigned()->after('id');
-        });
+        Schema::disableForeignKeyConstraints();
+
+        Schema::dropIfExists('jobtype_provider');
     }
 
     /**
@@ -25,8 +25,6 @@ class AddJobtypeIdColumnToProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::table('providers', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

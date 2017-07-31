@@ -39,6 +39,8 @@ class PagesController extends Controller
     public function postSignupHandyman(Request $request) {
         $area_work_coord = GMGetCoordinates($request->area_work);
 
+        $address = getGoogleGeocode($request->area_work);
+        dd($address );
         if ( Provider::where('email', '=', $request->email)->exists() ) {
             $request->session()->flash('error', '<strong>Snap!</strong> This email already exists!');
             return redirect()->route('signup-handyman');
@@ -48,7 +50,7 @@ class PagesController extends Controller
             'fname'     =>  'required|max:191',
             'lname'     =>  'required|max:191',
             'email'     =>  'required|email|unique:providers,email',
-            'password'  =>  'required|min:6|alpha_dash',
+            'password'  =>  'required|min:8',
             'address'  	=>  'required',
             'job_type'  =>  'required',
             'area_work' =>  'required'
@@ -128,5 +130,7 @@ class PagesController extends Controller
         return redirect()->route('signup-homeowner');
 
     }
+
+
 
 }
