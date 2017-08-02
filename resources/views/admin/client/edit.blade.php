@@ -50,7 +50,7 @@
                             'files'=> true
                             ]
                         ) !!}
-                        
+
 
                             <div class="form-group"><label class="col-sm-2 control-label">Username <small class="text-danger"><sup>*</sup></small></label>
                                 <div class="col-sm-10">
@@ -102,7 +102,7 @@
                                         <input type="file" name="user_image" id="user_image" class="form-control">
                                     </div>
                                 @endif
-                                
+
                             </div>
                             <div class="hr-line-dashed"></div>
 

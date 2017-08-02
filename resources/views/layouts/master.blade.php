@@ -51,8 +51,19 @@
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ route('signup-link') }}"><i class="fa fa-pencil"></i> Sign up</a></li>
-            <li><a href="{{ route('login.main') }}"><i class="fa fa-sign-in"></i> Login</a></li>
+            @if( Auth::guard('admin')->check() )
+              <li><a href="{{ route('admin.dashboard') }}">Admin Area</a></li>
+              <li><a href="{{ route('admin.logout') }}">Logout</a></li>
+            @elseif( Auth::guard('client')->check() )
+              {{--<li><a href="{{ route('admin.dashboard') }}">Admin Area</a></li>--}}
+              <li><a href="{{ route('client.logout') }}">Logout</a></li>
+            @elseif( Auth::guard('provider')->check() )
+                {{--<li><a href="{{ route('admin.dashboard') }}">Admin Area</a></li>--}}
+                <li><a href="{{ route('provider.logout') }}">Logout</a></li>
+            @else
+              <li><a href="{{ route('signup-link') }}"><i class="fa fa-pencil"></i> Sign up</a></li>
+              <li><a href="{{ route('login.main') }}"><i class="fa fa-sign-in"></i> Login</a></li>
+            @endif
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

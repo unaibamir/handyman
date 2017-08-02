@@ -26,12 +26,10 @@
                                 <thead>
                                 <tr>
                                     <th data-toggle="true">No. </th>
-                                    <th>Date</th>
                                     <th>Name</th>
-                                    <th data-hide="phone">Username</th>
-                                    <th data-hide="phone">Email</th>
+                                    <th>Slug</th>
+                                    <th data-hide="phone">Icon</th>
                                     <th data-hide="phone,tablet">Status</th>
-                                    <th data-hide="phone,tablet">Approved</th>
                                     <th class="text-right" data-sort-ignore="true">Action</th>
                                 </tr>
                                 </thead>
@@ -39,7 +37,44 @@
 
                                 @foreach( $categories as $category )
                                     <tr>
-
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->slug }}</td>
+                                        <td>
+                                            @if($category->icon_type == 1)
+                                                <i class="fa {{ $category->icon }}" style="font-size: 50px;"></i>
+                                            @else
+                                                <img src="{{ asset($category->icon) }}" alt="{{ $category->name }}" class="img-responsive img-thumbnail img-circle" style="max-width: 60px;">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if( $category->status == 1 )
+                                                <span class="label label-primary">Active</span>
+                                            @else
+                                                <span class="label label-danger">Deactive</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">Action <span class="caret"></span></button>
+                                                <ul class="dropdown-menu" style="right:0;left:inherit;">
+                                                    <li>
+                                                        @if( $category->status == 1 )
+                                                            <a href="{{ route('admin.category.deactivate', $category->id) }}">Deactivate</a>
+                                                        @else
+                                                            <a href="{{ route('admin.category.activate', $category->id) }}">Activate</a>
+                                                        @endif
+                                                    </li>
+                                                    <li><a href="{{ route('admin.category.edit', $category->id) }}">Edit</a></li>
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a href="{{ route('admin.category.delete', $category->id) }}" id="{{$category->id}}" class="delete_user" data-token="{{ csrf_token() }}">
+                                                            Delete
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
 
@@ -51,7 +86,7 @@
                             </div>
                         @else
                             <div class="alert alert-warning">
-                                No Categories found!
+                                <p>No Categories found!</p>
                             </div>
                         @endif
                     </div>

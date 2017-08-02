@@ -100,7 +100,8 @@ select.option.error + label.error { text-align: left !important;font-weight: 400
 
 /* Banner */
 .takeover-hero.jumbotron.green-hero {
-    background-image: url(../../images/banner.jpg);
+    /*background-image: url(../../images/banner.jpg);*/
+    background-image: url(../../images/painter.png);
 }
 .takeover-hero.jumbotron {
     text-align: left;
@@ -124,7 +125,8 @@ h2 {
 	margin:0px !important;
 }
 .section{ padding: 50px 0 !important;}
-
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img { display: inline-block;}
+.cat_thumb { max-height: 56px; }
 .category-listing{}
 .category-listing ul{ list-style: none; padding: 0; margin: 50px 0;
     border-top: 1px solid #e0e0e0;
@@ -532,6 +534,7 @@ p.m-md-bottom{ margin-top:20px; font-size: 14px;}
     z-index: 999;
     font-size: 14px;
     transition: opacity .4s ease-in-out;
+    padding: 26px 40px 0 40px;
 }
 .category-listing ul li .back_layer em {
     font-weight: 400;

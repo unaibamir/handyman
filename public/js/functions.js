@@ -79,14 +79,14 @@ $(function () {
             if (isConfirm) {
                 swal({
                     title: "Deleted!",
-                    text: 'User has been deleted!',
+                    text: 'Delete operation has been completed!',
                     type: 'success',
                     showConfirmButton: false,
                 });
                 setTimeout(function(){ window.location.replace(href); }, 1000);
 
             } else {
-                swal("Cancelled", "User deletion canceled!", "error");
+                swal("Cancelled", "Delete operation has been canceled!", "error");
             }
         });
     });

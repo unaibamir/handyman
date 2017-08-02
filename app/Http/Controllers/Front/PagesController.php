@@ -1,39 +1,45 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Provider;
 use App\Client;
+use App\Category;
 use App\JobType;
 use Validator;
 use Mail;
 
 class PagesController extends Controller
 {
-	public function getHomepage() {
-		return view('pages.home');
-	}
+    public function getHomepage() {
+        $data = array();
+        $categories = Category::limit(8)->get();
+
+        $data['categories']    =  $categories;
+        return view('pages.home')->with($data);
+    }
 
     public function getLoginMain(){
-	    return view('pages.login-main');
+        return view('pages.login-main');
     }
 
     public function getSignupMain() {
-    	return view('pages.signup');
+        return view('pages.signup');
     }
 
     public function getSignupHandyman(Request $request) {
-	    $jobtypes = JobType::where('status', '=' , 1)->get();
-	    $data = [
-	        'page_title'    =>  'HandyMan Sign Up',
+        $jobtypes = Category::where('status', '=' , 1)->get();
+        $data = [
+            'page_title'    =>  'HandyMan Sign Up',
             'job_types'     =>  $jobtypes
         ];
 
-	    //dd( request()->ip() );
+        //dd( request()->ip() );
 
-    	return view('pages.signup-handyman')->with('data', $data );
+        return view('pages.signup-handyman')->with('data', $data );
     }
 
     public function postSignupHandyman(Request $request) {
@@ -93,7 +99,7 @@ class PagesController extends Controller
 
     public function postSignupHomeowner(Request $request) {
 
-    	if ( Client::where('email', '=', $request->email)->exists() ) {
+        if ( Client::where('email', '=', $request->email)->exists() ) {
             $request->session()->flash('error', '<strong>Snap!</strong> This email already exists!');
             return redirect()->route('signup-homeowner');
         }
@@ -117,7 +123,7 @@ class PagesController extends Controller
 
         $client->fname 	    =	$request->fname;
         $client->lname 	    =	$request->lname;
-		$client->password   =	bcrypt($request->password);
+        $client->password   =	bcrypt($request->password);
         $client->username   =	$request->email;
         $client->email 	    =	$request->email;
         $client->address 	=	$request->address;

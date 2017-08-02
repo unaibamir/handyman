@@ -11,25 +11,30 @@
 |
 */
 
-Route::get('/', 'PagesController@getHomepage')->name('homepage');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'Front\PagesController@getHomepage')->name('homepage');
+Route::get('/home', 'Front\HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('login', 'PagesController@getLoginMain')->name('login.main');
-Route::get('register', 'PagesController@getSignupMain');
+Route::get('login', 'Front\PagesController@getLoginMain')->name('login.main');
+Route::get('register', 'Front\PagesController@getSignupMain');
 
-Route::get('signup', 'PagesController@getSignupMain')->name('signup-link');
-Route::get('signup/handyman', 'PagesController@getSignupHandyman')->name('signup-handyman');
-Route::post('signup/handyman', 'PagesController@postSignupHandyman')->name('signup-handyman-post');
+Route::get('signup', 'Front\PagesController@getSignupMain')->name('signup-link');
+Route::get('signup/handyman', 'Front\PagesController@getSignupHandyman')->name('signup-handyman');
+Route::post('signup/handyman', 'Front\PagesController@postSignupHandyman')->name('signup-handyman-post');
 
 
-Route::get('signup/homeowner', 'PagesController@getSignupHomeowner')->name('signup-homeowner');
-Route::post('signup/homeowner', 'PagesController@postSignupHomeowner')->name('signup-homeowner-post');
+Route::get('signup/homeowner', 'Front\PagesController@getSignupHomeowner')->name('signup-homeowner');
+Route::post('signup/homeowner', 'Front\PagesController@postSignupHomeowner')->name('signup-homeowner-post');
 
-Route::get('jobs/browse', 'JobsController@getBrowseJobsSimple')->name('job.browse');
-Route::get('jobs/{name?}/{id?}', 'JobsController@getSingleJobDetail')->name('job.single')->where(['id' => '[0-9]+', 'name' => '[a-z-_]+']);
+Route::get('jobs/browse', 'Front\JobsController@getBrowseJobsSimple')->name('job.browse');
+Route::get('jobs/{name}/{id?}', 'Front\JobsController@getSingleJobDetail')->name('job.single')->where(['name' => '[a-z_]+', 'id' => '[0-9]+']);
 
+Route::get('local/{name}/{id?}', 'Front\JobsController@getCategoryJobs')->name('category.jobs')->where(['name' => '[a-z-_]+', 'id' => '[0-9]+']);
+
+/*
+ * Admin Routes
+ * */
 
 Route::prefix('admin')->group(function() {
 
@@ -90,6 +95,9 @@ Route::prefix('admin')->group(function() {
             'edit'      => 'admin.category.edit',
         ]
     ]);
+    Route::get('category/delete/{id}', 'Admin\CategoryController@delete')->name('admin.category.delete');
+    Route::get('category/activate/{id}', 'Admin\CategoryController@getCategoryActivate')->name('admin.category.activate');
+    Route::get('category/deactivate/{id}', 'Admin\CategoryController@getCategoryDeactivate')->name('admin.category.deactivate');
 
 });
 

@@ -128,6 +128,7 @@ green-hero takeover-hero
 </section>
 
 
+@if( !$categories->isEmpty() )
 <section class="section">
 	
 	<div class="container text-center">
@@ -139,7 +140,27 @@ green-hero takeover-hero
 			<div class="category-listing">
 				
 				<ul>
-                    <li class="col-xs-6 col-sm-6 col-md-3">
+                    @foreach($categories as $key => $category)
+                        <li class="col-xs-6 col-sm-6 col-md-3">
+                            <a href="{{ route('category.jobs', [$category->slug, $category->id]) }}" title="{{ $category->name }}">
+                                <div class="front_layer">
+                                    @if($category->icon_type == 1)
+                                        <i class="fa {{$category->icon}} fa-5x"></i>
+                                    @else
+                                        <img src="{{$category->icon}}" alt="{{ $category->name }}" class="img-responsive img-thumbnail img-circle cat_thumb">
+                                    @endif
+                                    <h4>{{ $category->name }}</h4>
+                                </div>
+                                <div class="back_layer">
+                                    {{--<span>PHONE SUPPORT SPECIALISTS<br>EMAIL SUPPORT EXPERTS<br>LIVE CHAT SUPPORT PROS</span>--}}
+                                    <span>{{ strtoupper(str_limit($category->description, 70, '')) }}</span>
+                                    <br>
+                                    <em>and more...</em>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                    {{--<li class="col-xs-6 col-sm-6 col-md-3">
 						<a href="#">
                             <div class="front_layer">
                                 <i class="fa fa-area-chart fa-5x"></i>
@@ -242,7 +263,7 @@ green-hero takeover-hero
                                 <em>and more...</em>
                             </div>
                         </a>
-					</li>
+					</li>--}}
 					<div class="clearfix"></div>
 				</ul>
 				
@@ -258,6 +279,7 @@ green-hero takeover-hero
 	
 </section>
 
+@endif
 {{--<section class="bg-grey-lighter">
 	
 	<div class="container text-center">

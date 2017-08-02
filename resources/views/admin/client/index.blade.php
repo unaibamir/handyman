@@ -145,7 +145,7 @@
                             </div>
                         @else
                             <div class="alert alert-warning">
-                                No Clients found!
+                                <p>No Clients found!</p>
                             </div>
                         @endif
                     </div>

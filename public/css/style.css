@@ -8573,3 +8573,6 @@ body.md-skin {
 .select2-container {
   width: 100% !important;
 }
+.select2.select2-container--default.fa {
+  font-size: 17px;
+}

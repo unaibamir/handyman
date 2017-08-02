@@ -1,9 +1,32 @@
 @extends('layouts.master')
 
-@section('page_title', 'Browse Jobs ')
-
+@section('page_title', 'Find Top Rated '.$category->name.' Contractors in Your Area Today')
 
 @section('content')
+
+    <section class="bg-grey-lighter">
+
+        <div class="container text-center">
+
+            <div class="row">
+
+                <h2>{{ $category->name }}</h2>
+
+                <div class="col-md-9 col-md-offset-2 col-sm-12 text-center" style="margin-top: 20px; font-size: 16px;">
+
+                    <p>{{ $category->description }}</p>
+
+                </div><!--col md sm 3-->
+
+
+
+                <div class="clearfix"></div>
+
+            </div><!--row-->
+
+        </div><!--container-->
+
+    </section>
 
     <section class="signup-page">
 
@@ -315,6 +338,7 @@
 
                     <div class="clearfix"></div>
                 </div><!--air card job list-->
+
 
                 <div class="air-card job-listing">
 
@@ -628,4 +652,9 @@
     </section>
 
 
+@stop
+
+
+@section('scripts')
+    <script src="{{ asset('js/plugins/typehead/bootstrap3-typeahead.min.js') }}"></script>
 @stop

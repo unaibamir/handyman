@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2017 at 11:21 AM
+-- Generation Time: Aug 02, 2017 at 02:53 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -52,12 +52,28 @@ INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `crea
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
+  `icon_type` int(11) NOT NULL DEFAULT '0',
   `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `slug`, `status`, `icon_type`, `icon`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'General', 'general', 1, 1, 'fa-cogs', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pretium at massa at sollicitudin. Donec blandit, ex egestas scelerisque sagittis, enim elit scelerisque neque, at maximus diam est eget lorem. In quis magna sed quam feugiat pellentesque in at lorem. Fusce quis pretium nibh. Sed consequat sit amet justo non porta. Etiam facilisis suscipit nisi, eu faucibus arcu facilisis sed. Proin quis nisi ac ipsum convallis eleifend. Aliquam pellentesque id leo vel tristique.', '2017-08-01 05:13:53', '2017-08-02 03:44:27'),
+(3, 'Plumber', 'plumber', 1, 0, 'https://wpninjapro.com/handyman/public/media/cat/1501584203-plumber-100x100.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pretium at massa at sollicitudin. Donec blandit, ex egestas scelerisque sagittis, enim elit scelerisque neque, at maximus diam est eget lorem. In quis magna sed quam feugiat pellentesque in at lorem. Fusce quis pretium nibh. Sed consequat sit amet justo non porta. Etiam facilisis suscipit nisi, eu faucibus arcu facilisis sed. Proin quis nisi ac ipsum convallis eleifend. Aliquam pellentesque id leo vel tristique.', '2017-08-01 05:43:23', '2017-08-01 05:43:23'),
+(4, 'Electrician', 'electrician', 1, 1, 'fa-bolt', 'Electrician description goes here. Electrician description goes here. Electrician description goes here. Electrician description goes here. Electrician description goes here. Electrician description goes here. Electrician description goes here.', '2017-08-01 05:49:05', '2017-08-01 06:17:46'),
+(5, 'A/C Technician', 'a-c-technician', 1, 1, 'fa-snowflake-o', 'Looking for a HVAC Technician? We offer a premium HVAC (Heating, Ventilation and Air Conditioning) service.  No job is too small or big for us. Our HVAC Technicians are skilled, trained and professional, and can do any kind of HVAC job for you.', '2017-08-01 06:09:01', '2017-08-01 06:09:01'),
+(6, 'Painter', 'painter', 1, 1, 'fa-paint-brush', 'Looking to paint your Home or Office? We now offer Painting services. No job is too small or big for us. Our painting service is provided through partners who are skilled, and professional. We can do paint work related to new construction as well as maintenance (such as white wash).', '2017-08-01 06:09:43', '2017-08-01 06:09:43'),
+(8, 'Landscapers', 'landscapers', 1, 1, 'fa-certificate', 'TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc TEST Category desc', '2017-08-01 06:59:24', '2017-08-02 03:53:33'),
+(9, 'Pest Control Contractors', 'pest-control-contractors', 1, 1, 'fa-balance-scale', 'TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc TEST Category 2 desc', '2017-08-01 06:59:48', '2017-08-02 03:54:06'),
+(10, 'Asphalt Removal', 'asphalt-removal', 1, 1, 'fa-road', 'Need help finding an asphalt and paving contractor to repair your cracked driveway? We\'ll find you a professional. From paving driveways to sealcoating and hauling gravel, asphalt and paving contractors can get the job done- whatever task that may be. Porch is the free home network that connects homeowners and renters with the right home service professionals. Find the home professionals your neighbors love with our ratings and reviews available by previous customers.', '2017-08-02 07:47:35', '2017-08-02 07:47:35');
 
 -- --------------------------------------------------------
 
@@ -160,7 +176,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (23, '2017_06_13_081722_add_location_column_providers_table', 10),
 (26, '2017_07_31_061348_create_categories_migration_table', 11),
 (27, '2017_07_31_070648_drop_job_type_table', 12),
-(28, '2017_07_31_070936_drop_job_type_provider_table', 13);
+(28, '2017_07_31_070936_drop_job_type_provider_table', 13),
+(29, '2017_07_31_121357_add_column_icon_type_categories_table', 14),
+(30, '2017_08_01_084249_add_column_slug_categories_table', 15),
+(31, '2017_08_01_084450_alter_column_slug_categories_table', 16),
+(32, '2017_08_01_085107_add_column_slug_string_categories_table', 17);
 
 -- --------------------------------------------------------
 
@@ -351,7 +371,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `clients`
 --
@@ -366,7 +386,7 @@ ALTER TABLE `clients_meta`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `providers`
 --

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
-use function route;
+use App\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:client');

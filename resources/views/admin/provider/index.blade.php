@@ -136,9 +136,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
-
                                 </tbody>
-
+                        @else
+                            <div class="alert alert-warning">
+                                <p>No Providers found!</p>
+                            </div>
                         @endif
 
                     </div>
