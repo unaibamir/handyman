@@ -29,15 +29,15 @@
 	}
 a {color: #37a000; text-decoration: none !important;}
 
-input.field{ border-radius:0px; height: 42px; border:none; box-shadow: 0 0 0 2px #e0e0e0; margin-bottom: 20px;}
-input.field:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
-input.field.error { box-shadow: 0 0 0 2px #d50000!important; }
+input.field, textarea.field{ border-radius:0px; min-height: 42px; border:none; box-shadow: 0 0 0 2px #e0e0e0; margin-bottom: 20px;}
+input.field:focus, textarea.field:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
+input.field.error, textarea.field.error { box-shadow: 0 0 0 2px #d50000!important; }
 input.field.error + label.error { text-align: left !important;font-weight: 400;color: #d50000;float: left;position: relative;top: -15px;font-size: 12px; }
 
 select.option{ border-radius:0px; height: 42px; border:none; box-shadow: 0 0 0 2px #e0e0e0; margin-bottom: 20px;}
 select.option:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
 select.option.error { box-shadow: 0 0 0 2px #d50000!important; }
-select.option.error + label.error { text-align: left !important;font-weight: 400;color: #d50000;float: left;position: relative;top: -15px;font-size: 12px; }
+select.option.error + label.error { text-align: left !important;font-weight: 400;color: #d50000;float: left;position: relative;font-size: 12px; }
 
 .btn-default {
     color: #37a000;
@@ -75,6 +75,7 @@ select.option.error + label.error { text-align: left !important;font-weight: 400
 .btn-filter:hover, .btn-filter:focus, .btn-filter:active{ background:#37a000; color:#FFF !important;}
 .btn-login:hover, .btn-signup:hover{ background:#FFF;}
 .nomargin{ margin:0px;}
+.btn-group-sm>.btn, .btn-sm {padding: 5px 10px !important;}
 
 /* nav */
 .navbar-default {
@@ -343,9 +344,9 @@ a.circle {
 .job-listing:hover{ box-shadow: 0 0 0 2px #37a000;
     background-color: #fff; z-index: 1; position: relative;}
 .job-listing h4 a{ color:#37a000;}
-.job-listing small{ font-size:13px;}
+.job-listing small{ font-size:13px; display: inline-block; margin-bottom: 10px;}
 .job-listing small span{ font-size:13px; margin-right: 10px;}
-.job-listing p{ padding:20px 0 0 0; font-size: 14px;}
+.job-listing p{ padding:0px 0 0 0; font-size: 14px; line-height: 20px;}
 
 .dropdown label{ font-size:13px; font-weight: normal; padding: 6px 5px 0 10px;}
 p.rss-feeds{ font-size:14px; padding: 5px 0 0 0; margin-bottom: 0px;}
@@ -626,9 +627,10 @@ p.m-md-bottom{ margin-top:20px; font-size: 14px;}
     color: #494949;
     margin-bottom: 15px !important;
 }
-.job-filters {
+#job-filters {
     display: none;
 }
+.map_error {display: none;}
 .btn-active-green {
     background: #37a000 !important;
     color: #FFF !important;
@@ -638,8 +640,42 @@ p.m-md-bottom{ margin-top:20px; font-size: 14px;}
     min-width: 250px !important;
 }
 .rss-feeds i { color: #37a000; display: inline-block;margin-right: 6px; }
+.nav .dropdown.open>a, .nav .dropdown.open>a:focus, .nav .dropdown.open>a:hover {
+    background: transparent !important;
+}
+.post-job-box {
+    background: #FFF;
+    padding: 10px 30px;
+}
+.post-job-box h4 {
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
 
+.side-menu li a i.fa {
+    margin-right: 5px;
+    width: 10px;
+}
+.irs-from, .irs-to, .irs-single {
+    background: #37a000 !important;
+}
+.irs-from:after, .irs-to:after, .irs-single:after {
+    border-top-color: #37a000 !important;
+}
 
+.alert-danger {
+    padding: 18px;
+    padding-left: 80px;
+    background-color: #fff;
+    color: #494949;
+    border-radius: 4px;
+    position: relative;
+    /* border: 2px solid #d50000; */
+    margin-bottom: 40px;
+}
+.alert-danger {
+     border: 2px solid #d50000;
+}
 
 
 /* Media quries */

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', $job_title)
+@section('page_title', $job->title)
 
 @section('content')
 
@@ -10,54 +10,88 @@
 
             <div class="row">
 
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                </div>
+
                 <div class="col-md-9 col-sm-12">
 
                     <div class="custom-padding">
+                        @if($job->status != 0)
+                        <div class="alert alert-danger m-lg-bottom">
+                            <strong>This job is no longer available</strong>
+                        </div>
+                        @endif
 
-                        <h3>We are looking for game animators who are proficient in the Spine tool</h3>
+                        <h3>{{ $job->title }}</h3>
 
                         <small>
-                            <span class="badge">Plumber</span>
-                            <span> Posted 47 minutes ago</span>
+                            <span class="badge">{{ $job->category->name }}</span>
+                            <span> Posted {{ Carbon\Carbon::parse($job->created_at)->diffForHumans() }}</span>
                         </small>
 
                         <div class="clearfix"></div><br />
 
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-3 col-sm-3">
                             <div class="pull-left">
                                 <span class="fa fa-clock-o fa-2x" style="color: #ccc;"></span>
                             </div>
                             <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
-                                <p class="m-0-bottom"><strong>Hourly</strong></p>
+                                <p class="m-0-bottom"><strong>Job Type</strong></p>
                                 <small class="text-muted">
-                                    Hours to be determined<br>
-                                    Less than 1 month
+                                    @if($job->job_type = 'hourly')
+                                        Hourly
+                                    @elseif($job->job_type = 'fixed')
+                                        Fixed
+                                    @else
+                                        Any
+                                    @endif
                                 </small>
                             </div>
                             <div class="clearfix"></div>
                         </div>
 
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-3 col-sm-3">
                             <div class="pull-left">
                                 <span class="fa fa-usd fa-2x" style="color: #ccc;"></span>
                             </div>
                             <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
-                                <p class="m-0-bottom"><strong>Price</strong></p>
+                                <p class="m-0-bottom"><strong>Experience Level</strong></p>
                                 <small class="text-muted">
-                                    Intermediate Level
+                                    @if($job->exp_level = 'exp')
+                                        Experienced
+                                    @elseif($job->exp_level = 'inter')
+                                        Intermediate
+                                    @elseif($job->exp_level = 'entry')
+                                        Entery
+                                    @endif
                                 </small>
                             </div>
                             <div class="clearfix"></div>
                         </div>
 
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-3 col-sm-3">
                             <div class="pull-left">
                                 <span class="fa fa-calendar fa-2x" style="color: #ccc;"></span>
                             </div>
                             <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
-                                <p class="m-0-bottom"><strong>Start Date</strong></p>
+                                <p class="m-0-bottom"><strong>End Date</strong></p>
                                 <small class="text-muted">
-                                    June 23, 2017
+                                    {{ $job->end_date }}
+                                </small>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="pull-left">
+                                <span class="fa fa-calendar fa-2x" style="color: #ccc;"></span>
+                            </div>
+                            <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
+                                <p class="m-0-bottom"><strong>Date/Time to Approch</strong></p>
+                                <small class="text-muted">
+                                    {{ Carbon\Carbon::parse($job->date)->format('m/d/Y') }}
+                                    <br>
+                                    {{ Carbon\Carbon::parse($job->time)->format('g:i A') }}
                                 </small>
                             </div>
                             <div class="clearfix"></div>
@@ -72,9 +106,7 @@
 
                             <h4>Details</h4>
 
-                            <p>
-                                Hi. I'm looking For experienced factory buyers within China to help source factories for new products. The products will be for Theme Parks within Asia and the factories must complete our internal audit forms for compliance. Ideally someone with a gr
-                            </p>
+                            {!! $job->desc !!}
 
                             <div class="clearfix"></div>
 
@@ -85,7 +117,7 @@
                         <div class="clearfix"></div>
                     </div><!--air card job list-->
 
-                    <div class="air-card job-detail">
+                    {{--<div class="air-card job-detail">
 
                         <div class="col-md-6 col-sm-6">
 
@@ -121,118 +153,61 @@
                         </div><!--col md sm 6-->
 
                         <div class="clearfix"></div>
-                    </div><!--air card job list-->
+                    </div><!--air card job list-->--}}
+
+
 
                     <div class="air-card">
 
                         <div class="col-md-12">
 
-                            <h4>Client's Work History and Feedback (9)</h4>
+                            <h4>Client's Work History and Feedback ({{ $job->client->jobs->count() }})</h4>
 
-                            <div class="post-listing">
+                            @if( $job->client->jobs->count() > 1 )
 
-                                <div class="col-md-8 col-sm-8 nopadding">
+                                @foreach($open_jobs as $client_job)
+                                    <div class="post-listing">
 
-                                    <h4><a href="#">Icons needed for a website</a></h4>
+                                        <div class="col-md-8 col-sm-8 nopadding">
 
-                                    <p class="nopadding">
-                                        Thank you, Jeanine, for another opportunity to assist you. It is a pleasure working with you!
-                                    </p>
+                                            <h4>
+                                                <a href="{{ route('job.single', [$client_job->slug, $client_job->id] ) }}">
+                                                    {{ $client_job->title }}
+                                                </a>
+                                            </h4>
+                                            <span class="text-muted"><em>
+                                                @if( $client_job->status == 0 )
+                                                    Open Job
+                                                @elseif( $client_job->status == 1 )
+                                                    In Progress
+                                                @elseif( $client_job->status == 2 )
+                                                    Completed
+                                                @endif
+                                                </em>
+                                                </span>
 
-
-                                </div><!--col md sm 8-->
-
-                                <div class="col-md-4 col-sm-4">
-
-                                    <p class="text-right">May 2017 - May 2017<br /> Fixed Price $150.00</p>
-
-                                </div><!--col md sm 4-->
-
-                                <div class="clearfix"></div>
-                            </div><!--post job-->
-                            <div class="post-listing">
-
-                                <div class="col-md-8 col-sm-8 nopadding">
-
-                                    <h4><a href="#">Icons needed for a website</a></h4>
-
-                                    <p class="nopadding">
-                                        Thank you, Jeanine, for another opportunity to assist you. It is a pleasure working with you!
-                                    </p>
+                                            <p class="nopadding">
+                                                {!! str_limit($client_job->desc, 95, '...')  !!}
+                                            </p>
 
 
-                                </div><!--col md sm 8-->
+                                        </div><!--col md sm 8-->
 
-                                <div class="col-md-4 col-sm-4">
+                                        <div class="col-md-4 col-sm-4">
 
-                                    <p class="text-right">May 2017 - May 2017<br /> Fixed Price $150.00</p>
+                                            <p class="text-right">
+                                                {{ Carbon\Carbon::parse($client_job->created_at)->format('F Y') }}
+                                                {{--{{ date('F Y')  }}--}}
+                                            </p>
 
-                                </div><!--col md sm 4-->
+                                        </div><!--col md sm 4-->
 
-                                <div class="clearfix"></div>
-                            </div><!--post job-->
+                                        <div class="clearfix"></div>
+                                    </div><!--post job-->
+                                @endforeach
 
-                            <div class="post-listing">
+                            @endif
 
-                                <div class="col-md-8 col-sm-8 nopadding">
-
-                                    <h4><a href="#">Icons needed for a website</a></h4>
-
-                                    <p class="nopadding">
-                                        Thank you, Jeanine, for another opportunity to assist you. It is a pleasure working with you!
-                                    </p>
-
-
-                                </div><!--col md sm 8-->
-
-                                <div class="col-md-4 col-sm-4">
-
-                                    <p class="text-right">May 2017 - May 2017<br /> Fixed Price $150.00</p>
-
-                                </div><!--col md sm 4-->
-
-                                <div class="clearfix"></div>
-                            </div><!--post job-->	<div class="post-listing">
-
-                                <div class="col-md-8 col-sm-8 nopadding">
-
-                                    <h4><a href="#">Icons needed for a website</a></h4>
-
-                                    <p class="nopadding">
-                                        Thank you, Jeanine, for another opportunity to assist you. It is a pleasure working with you!
-                                    </p>
-
-
-                                </div><!--col md sm 8-->
-
-                                <div class="col-md-4 col-sm-4">
-
-                                    <p class="text-right">May 2017 - May 2017<br /> Fixed Price $150.00</p>
-
-                                </div><!--col md sm 4-->
-
-                                <div class="clearfix"></div>
-                            </div><!--post job-->	<div class="post-listing">
-
-                                <div class="col-md-8 col-sm-8 nopadding">
-
-                                    <h4><a href="#">Icons needed for a website</a></h4>
-
-                                    <p class="nopadding">
-                                        Thank you, Jeanine, for another opportunity to assist you. It is a pleasure working with you!
-                                    </p>
-
-
-                                </div><!--col md sm 8-->
-
-                                <div class="col-md-4 col-sm-4">
-
-                                    <p class="text-right">May 2017 - May 2017<br /> Fixed Price $150.00</p>
-
-                                </div><!--col md sm 4-->
-
-                                <div class="clearfix"></div>
-                            </div><!--post job-->
 
                         </div>
                         <div class="clearfix"></div>
@@ -244,10 +219,43 @@
                 <div class="col-md-3 col-sm-12">
 
                     <div class="custom-padding">
-                        <a href="#" class="btn btn-default btn-signup pull-right" style="width: 100%;">Post a job a like</a>
+                        @if( $job->status == 0 )
 
+                            @if( Auth::guard('client')->check() )
+
+                                @if( Auth::guard('client')->id() == $job->client_id )
+                                    <a href="{{ route('client.job-proposal', $job->id) }}" class="btn btn-default btn-signup pull-right" style="width: 100%;">View Proposals</a>
+                                @else
+                                    <a href="#" class="btn btn-default btn-signup pull-right" style="width: 100%;">Post a job a like</a>
+                                @endif
+
+
+                            @elseif( Auth::guard('provider')->check()  )
+                                @if(check_already_applied( Auth::guard('provider')->id(), $job->id ) == true )
+                                    <p>
+                                        You have already picked this job.
+                                    </p>
+                                    <a href="{{ route('provider.qued-jobs') }}" class="btn btn-default btn-signup pull-right">
+                                        See Applied Jobs
+                                    </a>
+                                @else
+                                <form action="{{ route('provider.pick-job', $job->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="job_id" value="{{ base64_encode($job->id) }}">
+                                    <input type="hidden" name="client_id" value="{{ base64_encode($job->client->id) }}">
+                                    <button class="btn btn-default btn-signup pull-right" style="width: 100%;">Pick job</button>
+                                </form>
+                                @endif
+
+                            @else
+                                <a href="{{ route('provider.login') }}" class="btn btn-default btn-signup pull-right" style="width: 100%;">Login For Apply</a>
+                            @endif
+
+                            <hr />
+
+                        @endif
                         <div class="clearfix"></div>
-                        <hr />
+
                         <div>
 
                             <p class="m-md-bottom">
@@ -255,7 +263,7 @@
 
                             </p>
 
-                            <div class="rating-stars-db nomargin">
+                            {{--<div class="rating-stars-db nomargin">
 
                                 <div class="rating left">
                                     <div class="stars right">
@@ -267,52 +275,58 @@
                                     </div>
                                 </div><!--rating-->
 
-                            </div>
+                            </div>--}}
+
+                            {{-- TODO --}}
 
                             <div class="clearfix"></div>
 
                             <p class="m-md-bottom">
-                                <strong>United States</strong><br>
+                                <strong>{{ $job->client->country }}</strong><br>
                                 <span class="text-muted">
-            San Francisco
-            03:37 AM
-        </span>
+                                    {{ $job->client->state }}
+                                    {{--{{ Carbon\Carbon::now('America/'.str_replace(' ','_', $job->client->state)) }} <br>
+                                    03:37 AM--}}
+                                </span>
                             </p>
                             <p class="m-md-bottom">
                                 <strong>
-                                    14
+                                    {{ $job->client->jobs->count()  }}
                                     Jobs Posted
                                 </strong>
                                 <br>
+                                {{-- TODO --}}
                                 <span class="text-muted">
-        58% Hire Rate,
-        6 Open Jobs
-    </span>
+                                    {{ $client_open_jobs }} Open Jobs
+                                </span>
                             </p>
                             <p class="m-md-bottom">
+
                                 <strong>
-                                    <span ng-bind="1176.01 | moneyRange" class="ng-binding">$1k+</span>
+                                    <span ng-bind="1176.01 | moneyRange" class="ng-binding">
+                                        ${{ $job->client->contract->sum('amount') }}
+                                    </span>
                                     Total Spent
                                 </strong><br>
-                                <span class="text-muted">
-            10
-            Hires,
-            5
-            Active
-        </span>
+                                {{--<span class="text-muted">
+                                    10
+                                    Hires,
+                                    5
+                                    Active
+                                </span>--}}
                             </p>
-                            <p class="m-md-bottom">
+                            {{--<p class="m-md-bottom">
                                 <strong>
                                     $11.90<span class="text-muted normal">/hr</span>
                                     Avg Hourly Rate Paid
                                 </strong><br>
                                 <span class="text-muted">
-            41
-            Hours
-        </span>
-                            </p>
+                                    41
+                                    Hours
+                                </span>
+                            </p>--}}
                             <small class="text-muted">
-                                Member Since Sep 22, 2016
+                                Member Since {{ Carbon\Carbon::parse($job->client->created_at)->format('F Y') }}
                             </small>
                         </div>
 

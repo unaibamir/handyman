@@ -33,9 +33,32 @@ class Provider extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-    public function jobtype()
+    /**
+     * Get the category associated with the provider.
+     */
+    public function category()
     {
-        return $this->belongsTo('App\JobType','jobtype_id', 'id');
+        return $this->hasOne('App\Category', 'id', 'category_id');
+    }
+
+    /**
+     * Get the proposal associated with the provider.
+     */
+    public function proposals()
+    {
+        return $this->hasMany('App\Proposal', 'pro_id', 'id');
+    }
+
+    public function contract() {
+        return $this->hasMany('App\Contract', 'provider_id', 'id');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->fname . " " . $this->lname;
+    }
+
+    public function getUserImageAttribute() {
+        return ( !empty($this->user_image) ? $this->user_image : 'profiles/clients/default.png' );
     }
 }

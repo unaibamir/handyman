@@ -42,7 +42,7 @@ class ClientLoginController extends Controller
             'password' => 'required|min:4'
         ]);
 
-
+        // TODO -- Check if client is approved or not
 
         // Attempt to log the client in
         /*if (Auth::guard('client')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {

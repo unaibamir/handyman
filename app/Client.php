@@ -34,4 +34,36 @@ class Client extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the jobs for the client.
+     */
+    public function jobs()
+    {
+        return $this->hasMany('App\Job', 'client_id');
+    }
+
+    /**
+     * Get the proposal associated with the client.
+     */
+    public function proposals()
+    {
+        return $this->hasMany('App\Proposal', 'client_id', 'id');
+    }
+
+    public function contract() {
+        return $this->hasMany('App\Contract', 'client_id', 'id');
+    }
+
+
+    public function getFullNameAttribute()
+    {
+        return $this->fname . " " . $this->lname;
+    }
+
+    public function getUserImageAttribute() {
+        return ( !empty($this->user_image) ? $this->user_image : 'profiles/clients/default.png' );
+    }
+
+
 }

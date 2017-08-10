@@ -16,7 +16,9 @@ class PagesController extends Controller
 {
     public function getHomepage() {
         $data = array();
-        $categories = Category::limit(8)->get();
+        $categories = Category::where('status','=','1')
+                        ->limit(8)
+                        ->get();
 
         $data['categories']    =  $categories;
         return view('pages.home')->with($data);
@@ -46,7 +48,7 @@ class PagesController extends Controller
         $area_work_coord = GMGetCoordinates($request->area_work);
 
         $address = getGoogleGeocode($request->area_work);
-        dd($address );
+
         if ( Provider::where('email', '=', $request->email)->exists() ) {
             $request->session()->flash('error', '<strong>Snap!</strong> This email already exists!');
             return redirect()->route('signup-handyman');
@@ -79,9 +81,10 @@ class PagesController extends Controller
         $provider->phone 	    =	$request->phone;
         $provider->location     =   $request->area_work;
         $provider->country      =   $request->country;
-        $provider->jobtype_id   =   $request->job_type;
+        $provider->category_id   =   $request->job_type;
         $provider->latitude     =   $area_work_coord['lat'];
         $provider->longitude    =   $area_work_coord['lng'];
+
         $provider->setMeta('bank_account', $request->bank_account);
 
         $provider->save();
@@ -108,7 +111,7 @@ class PagesController extends Controller
             'fname'     =>  'required|max:191',
             'lname'     =>  'required|max:191',
             'email'     =>  'required|email|unique:clients,email',
-            'password'  =>  'required|min:6|alpha_dash',
+            'password'  =>  'required|min:8',
             'address'  	=>  'required',
             'phone'		=>	'required'
         ]);
@@ -133,7 +136,8 @@ class PagesController extends Controller
 
         $request->session()->flash('success', 'You have been successfully registered.');
 
-        return redirect()->route('signup-homeowner');
+        return redirect()->route('client.login');
+
 
     }
 

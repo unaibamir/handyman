@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use App\Job;
+use App\Provider;
+use App\Proposal;
+use App\Client;
+use App\Contract;
 
 function GMGetCoordinates($address) {
 
@@ -102,11 +107,6 @@ function getGoogleGeocode( $find_address = null ) {
             case 'street_number':
                 $address['street_number']['long_name'] = $component->long_name;
                 $address['street_number']['short_name'] = $component->short_name;
-                break;
-
-            case 'route':
-                $address['route']['long_name'] = $component->long_name;
-                $address['route']['short_name'] = $component->short_name;
                 break;
 
             case 'route':
@@ -863,15 +863,31 @@ function slugify($text)
     return $text;
 }
 
-function check_slug_exists($table, $column , $exist_slug, $new_slug) {
-
-
+function check_slug_exists($table, $column , $new_slug, $exist_slug = null) {
+    //DB::enableQueryLog();
     $users = DB::table($table)
         ->select( DB::raw("count(*) AS NumHits") )
-        ->where($column, 'like' , "$new_slug")
+        ->where($column, 'like' , "%$new_slug%")
         ->get()->toArray();
-
+    //dd(DB::getQueryLog());
     $numHits = $users[0]->NumHits;
+
     return ($numHits > 0) ? ($new_slug . '-' . $numHits) : $new_slug;
+
+}
+
+
+function check_already_applied($provider_id, $job_id) {
+
+    $proposal = Proposal::where('pro_id', '=', $provider_id)
+        ->where('job_id', '=', $job_id)
+        ->get();
+
+    if( $proposal->isNotEmpty() ) {
+        return true;
+    }
+    else {
+        return false;
+    }
 
 }

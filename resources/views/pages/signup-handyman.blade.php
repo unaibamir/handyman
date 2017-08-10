@@ -76,7 +76,7 @@
                             <div class="form-group" id="controls">
                                 <label class="sr-only" for="area_work">Country</label>
                                 <select class="form-control option select2" name="country" id="country" required>
-                                    <option value="us">U.S.A.</option>
+                                    <option value="United States">United States</option>
                                 </select>
                             </div>
 

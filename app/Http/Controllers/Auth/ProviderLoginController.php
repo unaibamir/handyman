@@ -38,7 +38,7 @@ class ProviderLoginController extends Controller
             'password' => 'required|min:4'
         ]);
 
-
+        // TODO -- Check if provider is approved or not
 
         // Attempt to log the provider in
         /*if (Auth::guard('provider')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {

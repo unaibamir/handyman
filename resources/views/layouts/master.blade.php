@@ -11,8 +11,11 @@
     <!-- Bootstrap -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('front/css/plugins/select2/select2.min.css') }}">
+    <link href="{{ asset('assets/css/adminia-1.1.css?ver='.time()) }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/adminia-1.1-responsive.css?ver='.time()) }}" rel="stylesheet">
     <link href="{{ asset('assets/css/main.css?ver='.time()) }}" rel="stylesheet">
-   
+    <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
+    @yield('stylesheets')
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -36,30 +39,61 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-         
+        <div class="collapse navbar-collapse">
+
          <form class="navbar-form hidden-sm navbar-left">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
             </div>
-          </form>
-          
+         </form>
+
           <ul class="nav navbar-nav">
             {{--<li class=""><a href="{{ route('homepage') }}">Home <span class="sr-only">(current)</span></a></li>--}}
             <li><a href="{{ route('job.browse') }}">Browse</a></li>
             <li><a href="#">How it works</a></li>
           </ul>
-          
+
           <ul class="nav navbar-nav navbar-right">
             @if( Auth::guard('admin')->check() )
               <li><a href="{{ route('admin.dashboard') }}">Admin Area</a></li>
               <li><a href="{{ route('admin.logout') }}">Logout</a></li>
             @elseif( Auth::guard('client')->check() )
-              {{--<li><a href="{{ route('admin.dashboard') }}">Admin Area</a></li>--}}
-              <li><a href="{{ route('client.logout') }}">Logout</a></li>
+              {{-- Client Header Link --}}
+
+              <li>
+                <div class="dropdown">
+                  <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <img src="{{ asset( Auth::guard('client')->user()->user_image ) }}" class="avatar avatar-xs img-circle" alt=""/>
+                      {{ Auth::guard('client')->user()->full_name }}
+                      <span class="caret"></span>
+                  </a>
+
+                  <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    <li><a href="{{ route('client.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ route('client.logout') }}">Logout</a></li>
+                  </ul>
+                </div>
+              </li>
+
+
             @elseif( Auth::guard('provider')->check() )
-                {{--<li><a href="{{ route('admin.dashboard') }}">Admin Area</a></li>--}}
-                <li><a href="{{ route('provider.logout') }}">Logout</a></li>
+
+              {{-- Handyman Header Link --}}
+                  <li>
+
+                      <div class="dropdown">
+                          <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                              <img src="{{ asset( Auth::guard('provider')->user()->user_image ) }}" class="avatar avatar-xs img-circle" alt=""/>
+                              {{ Auth::guard('provider')->user()->full_name }}
+                              <span class="caret"></span>
+                          </a>
+
+                          <ul class="dropdown-menu" aria-labelledby="dLabel">
+                              <li><a href="{{ route('client.dashboard') }}">Dashboard</a></li>
+                              <li><a href="{{ route('client.logout') }}">Logout</a></li>
+                          </ul>
+                      </div>
+                  </li>
             @else
               <li><a href="{{ route('signup-link') }}"><i class="fa fa-pencil"></i> Sign up</a></li>
               <li><a href="{{ route('login.main') }}"><i class="fa fa-sign-in"></i> Login</a></li>
@@ -88,7 +122,6 @@
         <li><a href="{{ route('homepage') }}">Home</a></li>
         <li><a href="#">About us</a></li>
         <li><a href="#">Products</a></li>
-        <li><a href="#">Compaines</a></li>
         <li><a href="#">Blog</a></li>
         <li><a href="#">Terms of Service</a></li>
         <li><a href="#">Privacy Policy</a></li>
@@ -107,7 +140,7 @@
         <li><a href="">Local Business Resources</a></li>
       </ul>
     </div>
-    
+
   </div>
   <div ui-accordion-item="" class="col-sm-4 ng-scope">
     <div ui-accordion-item="" class="item ng-scope">
@@ -115,14 +148,10 @@
         Browse
       </h4>
       <ul class="list-unstyled text-short content">
-        <li><a href="#">Freelancers by Skill</a></li>
-        <li><a href="#">Freelancers in USA</a></li>
-        <li><a href="#">Freelancers in UK</a></li>
-        <li><a href="#">Freelancers in Canada</a></li>
-        <li><a href="#">Freelancers in Australia</a></li>
+        <li><a href="#">Handymen by Skill</a></li>
+        <li><a href="#">Handymen in USA</a></li>
         <li><a href="#">Find Jobs</a></li>
-        <li><a href="#">Hiring Resources</a></li>
-        <li><a href="#">Jobs in USA</a></li>
+
       </ul>
     </div>
   </div>
@@ -133,7 +162,7 @@
   <div class="row ng-isolate-scope accordion-footer">
   <div class="col-sm-12 social-links">
     <div ui-accordion-item="" class="item ng-scope">
-     
+
       <ul class="list-inline content text-center">
         <li class=""><a title="" target="_blank" href="#"><i class="fa fa-google-plus"></i></a></li>
         <li class=""><a title="" target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
@@ -157,10 +186,11 @@
   </section>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery-1.12.4.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY', 'AIzaSyBMVkumI3QtPusxZCmAjHOkNJs7V7hoicA') }}&libraries=places"></script>
     <script src="{{ asset('front/js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('front/js/functions.js') }}"></script>
     @yield('scripts')
 

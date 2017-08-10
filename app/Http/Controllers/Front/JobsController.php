@@ -6,53 +6,176 @@ use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Faker\Factory as Faker;
-use function redirect;
-use function route;
+use App\Job;
+use App\Client;
+use App\Provider;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Input;
+
 
 class JobsController extends Controller
 {
     /*
      * show job browser view
      * */
-    public function getBrowseJobsSimple() {
+    public function getBrowseJobsSimple(Request $request) {
         $data = array();
-        $faker = Faker::create();
-        $data['job_slug'] = $faker->word;
-        $data['job_id'] = $faker->randomDigitNotNull;
 
-        $jobs = array(
-            [
-                'title' =>  'We are looking for Some handyman who can work instantly',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ],
-            [
-                'title' =>  'Handyman required for urgent job',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ],
-            [
-                'title' =>  'We are looking for handyman who are proficient in all home work',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ],
-            [
-                'title' =>  'Urgent work needed! Long time work',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ]
-        );
-        shuffle($jobs);
+        // TODO -- SET TOTAL AMOUNT OF CLIENT
+        $open_jobs = Job::where('status'   ,'=' , 0)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
-        $data['jobs'] = $jobs;
+
+
+        $data['open_jobs'] = $open_jobs;
+
+
+        // Getting categories
+
+        $categories = Category::where('status','=','1')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $data['categories'] = $categories;
 
         return view('jobs.browse-jobs')->with($data);
     }
 
     /*
+     *  Shows searched jobs
+     * */
+    public function postSearchJobs( Request $request ) {
+        $data = array();
+
+        \DB::enableQueryLog();
+        /*$query = 'SELECT * FROM jobs WHERE 1 ';*/
+        $query = Job::query();
+        if($request->exists('submit')) {
+
+            if($request->has('user_location')) {
+
+                $user_location = getGoogleGeocode($request->user_location);
+
+                $max_distance  = $request->distance;
+
+                $current_lat = $user_location['location']['lat'];
+                $current_lng = $user_location['location']['lng'];
+
+
+                $distance_select = sprintf(
+                    "( 3959 * acos( cos( radians('%s') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('%s') ) + sin( radians('%s') ) * sin( radians( lat ) ) ) ) AS distance",
+                    $current_lat,
+                    $current_lng,
+                    $current_lat
+                );
+
+                $query->selectRaw( DB::raw( '*' . ' ,' .  $distance_select  ) );
+
+
+            }
+
+            if($request->has('job_title')) {
+                $job_title = $request->job_title;
+                $query->where('title','like', "%$job_title%");
+                /*$query .= 'AND title like "%'.$job_title.'%"';*/
+            }
+
+            if($request->has('job_type')) {
+                $job_type = $request->job_type;
+                /*$query->where('job_type', '=', "'$job_type'");*/
+                $query->where('job_type', '=', $job_type);
+                /*$query .= ' AND job_type = "'.$job_type.'"';*/
+            }
+
+            if($request->has('exp_level')) {
+                $exp_level = $request->exp_level;
+                $query->where('exp_level', '=', $exp_level);
+                /*$query .= ' AND exp_level = "'.$exp_level.'"';*/
+            }
+
+            if($request->has('job_category')) {
+                $job_category = $request->job_category;
+                $query->where('cat_id', '=', $job_category);
+                /*$query .= ' AND cat_id = '.$job_category.'';*/
+            }
+
+            if($request->has('user_location')) {
+                $query->havingRaw('distance <= ' . $request->distance);
+            }
+
+            $open_jobs = $query->where('status'   ,'=' , 0)
+                ->orderBy('id', 'desc')->get();
+
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+            $perPage = 2;
+            $currentPageSearchResults = $open_jobs->slice(($currentPage - 1) * $perPage, $perPage)->all();
+            $entries = new LengthAwarePaginator($currentPageSearchResults, count($open_jobs), $perPage);
+
+            $entries->withPath(route('job.browse-search'));
+
+
+
+
+            //dd($entries->links());
+
+            //echo '<pre>'.print_r(\DB::getQueryLog(), true).'</pre>'; exit;
+            //dd($entries);
+            /*dd(\DB::getQueryLog());*/
+            //return $paginator->make($open_jobs, count($open_jobs), Input::get('limit') ?: '10');
+
+            // TODO -- SET TOTAL AMOUNT OF CLIENT
+
+            //dd($entries);
+            $data['open_jobs'] = $entries;
+
+
+            // Getting categories
+
+            $categories = Category::where('status','=','1')
+                ->orderBy('name', 'asc')
+                ->get();
+
+            $data['categories'] = $categories;
+
+            return view('jobs.browse-jobs')->with($data);
+
+
+
+        }
+
+        // Getting categories
+
+        $categories = Category::where('status','=','1')
+            ->get();
+
+        $data['categories'] = $categories;
+
+        return view('jobs.browse-jobs')->with($data);
+    }
+
+
+
+    /*
      * get single job details view
      */
     public function getSingleJobDetail($name = null, $id= null){
-
         $data = array();
-        $faker = Faker::create();
-        $data['job_title'] = $faker->name();
+        $job = Job::find($id);
+        $data['job'] = $job;
+
+        // get total open jobs
+        $open_jobs = Job::where('status','=','0')
+            ->where('client_id','=', $job->client_id)
+            ->where('id', '!=', $id)
+            ->get();
+
+        $data['open_jobs'] = $open_jobs;
+        $data['client_open_jobs'] = $open_jobs->count();
+
+
 
         return view('jobs.single-job')->with($data);
 
@@ -70,31 +193,19 @@ class JobsController extends Controller
 
         $data['category']   = $category;
 
-        $faker = Faker::create();
-        $data['job_slug'] = $faker->word;
-        $data['job_id'] = $faker->randomDigitNotNull;
+        $cat_jobs = Job::where('status'   ,'=' , 0)
+            ->where('cat_id', '=', $id)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
-        $jobs = array(
-            [
-                'title' =>  'We are looking for Some handyman who can work instantly',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ],
-            [
-                'title' =>  'Handyman required for urgent job',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ],
-            [
-                'title' =>  'We are looking for handyman who are proficient in all home work',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ],
-            [
-                'title' =>  'Urgent work needed! Long time work',
-                'desc'  =>  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel consectetur nunc. Aliquam nec velit semper nibh egestas egestas sit amet a nisi. Donec condimentum tellus ipsum, eu scelerisque justo ultrices eget. Vivamus nec auctor quam, non convallis nulla. Suspendisse auctor ullamcorper consequat. Fusce odio ligula, aliquet at lacinia non, pellentesque placerat tortor. Ut venenatis est ornare orci porttitor consequat. Nullam scelerisque tristique tortor, nec sagittis nibh mattis non. Donec facilisis egestas metus eget suscipit. Curabitur ultricies, ligula vel pretium euismod, elit quam interdum orci, ac egestas nulla eros a odio. Nulla aliquam lacinia leo. Fusce eget ex sed ligula malesuada blandit non et turpis.'
-            ]
-        );
-        shuffle($jobs);
 
-        $data['jobs'] = $jobs;
+
+        $data['open_jobs'] = $cat_jobs;
+
+        $categories = Category::where('status','=','1')
+            ->get();
+
+        $data['categories'] = $categories;
 
 
         return view('jobs.category-jobs')->with($data);

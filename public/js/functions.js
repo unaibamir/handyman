@@ -73,7 +73,7 @@ $(function () {
             cancelButtonText: "No, cancel it!",
             closeOnConfirm: false,
             closeOnCancel: false,
-            showLoaderOnConfirm: true,
+            showLoaderOnConfirm: true
         },
         function(isConfirm) {
             if (isConfirm) {
@@ -81,7 +81,7 @@ $(function () {
                     title: "Deleted!",
                     text: 'Delete operation has been completed!',
                     type: 'success',
-                    showConfirmButton: false,
+                    showConfirmButton: false
                 });
                 setTimeout(function(){ window.location.replace(href); }, 1000);
 

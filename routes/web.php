@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,26 +11,31 @@
 |
 */
 
-Route::get('/', 'Front\PagesController@getHomepage')->name('homepage');
-Route::get('/home', 'Front\HomeController@index')->name('home');
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/', 'Front\PagesController@getHomepage')->name('homepage');
+    Route::get('/home', 'Front\HomeController@index')->name('home');
 
-Auth::routes();
+    Auth::routes();
 
-Route::get('login', 'Front\PagesController@getLoginMain')->name('login.main');
-Route::get('register', 'Front\PagesController@getSignupMain');
+    Route::get('login', 'Front\PagesController@getLoginMain')->name('login.main');
+    Route::get('register', 'Front\PagesController@getSignupMain');
 
-Route::get('signup', 'Front\PagesController@getSignupMain')->name('signup-link');
-Route::get('signup/handyman', 'Front\PagesController@getSignupHandyman')->name('signup-handyman');
-Route::post('signup/handyman', 'Front\PagesController@postSignupHandyman')->name('signup-handyman-post');
+    Route::get('signup', 'Front\PagesController@getSignupMain')->name('signup-link');
+    Route::get('signup/handyman', 'Front\PagesController@getSignupHandyman')->name('signup-handyman');
+    Route::post('signup/handyman', 'Front\PagesController@postSignupHandyman')->name('signup-handyman-post');
 
 
-Route::get('signup/homeowner', 'Front\PagesController@getSignupHomeowner')->name('signup-homeowner');
-Route::post('signup/homeowner', 'Front\PagesController@postSignupHomeowner')->name('signup-homeowner-post');
+    Route::get('signup/homeowner', 'Front\PagesController@getSignupHomeowner')->name('signup-homeowner');
+    Route::post('signup/homeowner', 'Front\PagesController@postSignupHomeowner')->name('signup-homeowner-post');
 
-Route::get('jobs/browse', 'Front\JobsController@getBrowseJobsSimple')->name('job.browse');
-Route::get('jobs/{name}/{id?}', 'Front\JobsController@getSingleJobDetail')->name('job.single')->where(['name' => '[a-z_]+', 'id' => '[0-9]+']);
+    Route::get('jobs/browse', 'Front\JobsController@getBrowseJobsSimple')->name('job.browse');
+    Route::get('jobs/browse/search', 'Front\JobsController@postSearchJobs')->name('job.browse-search');
+    Route::get('job/{name}/{id?}', 'Front\JobsController@getSingleJobDetail')->name('job.single')->where(['name' => '[a-z_0-9-]+', 'id' => '[0-9]+']);
 
-Route::get('local/{name}/{id?}', 'Front\JobsController@getCategoryJobs')->name('category.jobs')->where(['name' => '[a-z-_]+', 'id' => '[0-9]+']);
+    Route::get('local/{name}/{id?}', 'Front\JobsController@getCategoryJobs')->name('category.jobs')->where(['name' => '[a-z-_]+', 'id' => '[0-9]+']);
+
+
+});
 
 /*
  * Admin Routes
@@ -106,7 +111,26 @@ Route::prefix('client')->group(function() {
     Route::get('/login', 'Auth\ClientLoginController@showLoginForm')->name('client.login');
     Route::post('/login', 'Auth\ClientLoginController@login')->name('client.login.submit');
     Route::get('/logout', 'Auth\ClientLoginController@logout')->name('client.logout');
-    Route::get('/','ClientController@dashboard')->name('client.dashboard');
+    Route::get('/dashboard','Client\ClientController@dashboard')->name('client.dashboard');
+    Route::get('/','Client\ClientController@dashboard')->name('client.main');
+
+    Route::get('/post-job','Client\ClientController@getJobPost')->name('client.job-post');
+    Route::get('/open-jobs','Client\ClientController@getOpenJobs')->name('client.open-jobs');
+    Route::get('/completed-jobs','Client\ClientController@getClosedJobs')->name('client.closed-jobs');
+    Route::post('/post-job','Client\ClientController@postJobPost')->name('client.post-job-post');
+
+    Route::get('/job/delete/{id}','Client\ClientController@getDeleteJob')->name('client.delete-job');
+    Route::get('/job/edit/{id}','Client\ClientController@getEditJob')->name('client.edit-job');
+    Route::put('/job/edit/{id}/update','Client\ClientController@postUpdateJob')->name('client.update-job');
+
+    Route::get('/job/{id}/proposals','Client\ClientController@getJobProposals')->name('client.job-proposal');
+    Route::get('/job/{id}/proposals/delete','Client\ClientController@getJobProposalDelete')->name('client.job-proposal-delete');
+    Route::get('/job/{id}/proposal/{slug}/award','Client\ClientController@getJobProposalAward')->name('client.job-proposal-award');
+    Route::get('/job/{id}/proposal/{slug}/reject','Client\ClientController@getJobProposalReject')->name('client.job-proposal-reject');
+
+    Route::get('/job/{id}/contract','Client\ClientController@getJobContract')->name('client.job-contract');
+
+
 
 
     Route::get('password/reset', 'Auth\ClientForgotPasswordController@showLinkRequestForm')->name('client.password.request');
@@ -120,6 +144,16 @@ Route::prefix('provider')->group(function() {
     Route::get('/login', 'Auth\ProviderLoginController@showLoginForm')->name('provider.login');
     Route::post('/login', 'Auth\ProviderLoginController@login')->name('provider.login.submit');
     Route::get('/logout', 'Auth\ProviderLoginController@logout')->name('provider.logout');
-    Route::get('/','Provider\ProviderController@dashboard')->name('provider.dashboard');
+
+    Route::get('/dashboard','Provider\ProviderController@getDashboardPage')->name('provider.dashboard');
+    Route::get('/','Provider\ProviderController@getDashboardPage')->name('provider.main');
+
+    Route::get('/completed-jobs','Provider\ProviderController@getCompletedJobs')->name('provider.completed-jobs');
+    Route::get('/qued-jobs','Provider\ProviderController@getQuedJobs')->name('provider.qued-jobs');
+    Route::get('/job/proposal/{id}/delete','Provider\ProviderController@getDeleteQuedJob')->name('provider.delete-qued-job');
+    Route::get('/job/report/{id}/contract','Provider\ProviderController@getJobContract')->name('provider.job-contract');
+
+
+    Route::post('pick/{id}/job', 'Provider\ProviderController@postPickJob')->name('provider.pick-job');
 
 });
