@@ -41,7 +41,11 @@
                                                     <tr>
                                                         <td class="col-md-1">{{ $loop->iteration }}</td>
                                                         <td class="col-md-1">{{ date('d-m-Y', strtotime($client->created_at)) }}</td>
-                                                        <td class="col-md-3">{{ $job->title }}</td>
+                                                        <td class="col-md-3">
+                                                            <a href="{{ route('job.single', [$job->slug, $job->id]) }}" target="_blank">
+                                                                {{ $job->title }}
+                                                            </a>
+                                                        </td>
                                                         <td class="col-md-2">{{ $job->category->name }}</td>
                                                         <td class="col-md-2">{{ $job->proposals->count() }}</td>
                                                         <td class="col-md-1">

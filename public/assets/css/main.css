@@ -38,6 +38,18 @@ select.option{ border-radius:0px; height: 42px; border:none; box-shadow: 0 0 0 2
 select.option:focus{ border-radius:0px; border:none; box-shadow: 0 0 0 2px #008329;}
 select.option.error { box-shadow: 0 0 0 2px #d50000!important; }
 select.option.error + label.error { text-align: left !important;font-weight: 400;color: #d50000;float: left;position: relative;font-size: 12px; }
+.widget-header {
+    padding-left: 10px;
+}
+.job_feaures .col-md-4.col-sm-4 {
+    margin-bottom: 30px;
+}
+.input-group-addon {
+    height: 34px;
+    padding: 6px 12px;
+    box-shadow: 0 0 0 2px #e0e0e0;
+    border: none;
+}
 
 .btn-default {
     color: #37a000;
@@ -464,7 +476,7 @@ p.rss-feeds{ font-size:14px; padding: 5px 0 0 0; margin-bottom: 0px;}
 }
 
 .custom-padding{ padding: 40px 20px;}
-.custom-padding small{ font-size:70%;}
+.custom-padding small{ font-size:80%;}
 .badge{ font-weight:400; font-size:11px; background: #ababab; margin-right: 5px;}
 
 .job-detail{ margin: 0px;}
@@ -676,7 +688,12 @@ p.m-md-bottom{ margin-top:20px; font-size: 14px;}
 .alert-danger {
      border: 2px solid #d50000;
 }
-
+.wizard > .content > .body {
+    position: relative !important;
+}
+.wizard > .content > .body ul {
+    padding-left: 20px !important;
+}
 
 /* Media quries */
 	

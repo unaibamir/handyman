@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Completed Jobs ')
+@section('page_title', 'Jobs In Progress')
 
 @section('content')
     <div id="content">
@@ -19,42 +19,48 @@
                         <div class="col-md-12">
                             <div class="widget">
                                 <div class="widget-header">
-                                    <h3>Completed Jobs</h3>
+                                    <h3>Jobs In Progress</h3>
                                 </div> <!-- /widget-header -->
                                 <div class="widget-content">
 
-                                    @if( !$completed_jobs->isEmpty() )
+                                    @if( !$ongoing_jobs->isEmpty() )
 
                                         <div class="table-responsives">
                                             <table class="table table-hover table-bordered">
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Date</th>
                                                     <th>Job Title</th>
-                                                    <th>Amount</th>
-                                                    <th>Client Name</th>
+                                                    {{--<th>HandyMan</th>--}} {{-- TODO --}}
                                                     <th>Category</th>
+                                                    <th>Proposals</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($completed_jobs as $jobs)
+                                                @foreach($ongoing_jobs as $job)
+
                                                     <tr>
                                                         <td class="col-md-1">{{ $loop->iteration }}</td>
+                                                        <td class="col-md-1">{{ date('d-m-Y', strtotime($provider->created_at)) }}</td>
                                                         <td class="col-md-3">
-                                                            <a href="{{ route('job.single', [$jobs->job->slug, $jobs->job->id]) }}" title="{{ $jobs->job->title }}" target="_blank">
-                                                                {{ $jobs->job->title }}
+                                                            <a href="{{ route('job.single', [$job->job->slug, $job->job->id]) }}" target="_blank">
+                                                                {{ $job->job->title }}
                                                             </a>
                                                         </td>
-                                                        <td class="col-md-1">${{ $jobs->amount }}</td>
-                                                        <td class="col-md-1">{{ $jobs->job->client->full_name }}</td>
-                                                        <td class="col-md-1">{{ $jobs->job->category->name }}</td>
+                                                        <td class="col-md-2">
+                                                            {{ $job->job->category->name }}
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            {{ $job->job->proposals->count() }}
+                                                        </td>
                                                         <td class="col-md-1">
                                                             <!-- Small button group -->
                                                             <div class="btn-group">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                                                                 <ul class="dropdown-menu dropdown-menu-right">
-                                                                    <li><a href="{{ route('provider.job-contract', $jobs->job->id) }}">View Report</a></li>
+                                                                    <li><a href="{{ route('provider.job-contract', $job->job->id) }}">View Report</a></li>
                                                                 </ul>
                                                             </div>
                                                         </td>
@@ -64,7 +70,7 @@
                                             </table>
                                         </div>
                                         <div class="text-right">
-                                            {{ $completed_jobs->links() }}
+                                            {{ $ongoing_jobs->links() }}
                                         </div>
                                     @else
                                         <div class="alert alert-warning" role="alert">

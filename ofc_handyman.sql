@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2017 at 04:21 PM
+-- Generation Time: Aug 11, 2017 at 05:48 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -112,7 +112,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `username`, `email`, `password`, `fname`, `lname`, `latitude`, `longitude`, `user_image`, `bio`, `time`, `location`, `address`, `phone`, `city`, `state`, `country`, `postcode`, `is_active`, `is_approved`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 'client', 'client@client.com', '$2y$10$AzAiyXtcLUgybW9HjNbMm.S1S4XAHFG8GHH8YW7pp8cwt3mXs1HSy', 'Unaib', 'Amir', NULL, NULL, 'profiles/clients/default.png', NULL, 0, NULL, NULL, NULL, NULL, 'California', 'United States of America', NULL, 1, 1, '1DiPbeV88OPRtI2zArAgtLf2XFET4HyBi9SakYeJGyKuMKbBQlA30w9n2CCV', '2017-06-07 05:49:06', '2017-06-07 05:49:06'),
+(3, 'client', 'client@client.com', '$2y$10$AzAiyXtcLUgybW9HjNbMm.S1S4XAHFG8GHH8YW7pp8cwt3mXs1HSy', 'Unaib', 'Amir', NULL, NULL, 'profiles/clients/default.png', NULL, 0, NULL, NULL, NULL, NULL, 'California', 'United States of America', NULL, 1, 1, 'YEndxly55dllCpd1XvFAcsqhM1WpSEdriDyZCumr00gxohu2osMCYcjmccaW', '2017-06-07 05:49:06', '2017-06-07 05:49:06'),
 (7, 'schiller.teresa', 'mcdermott.gretchen@monahan.com', '$2y$10$EuSlB1RimmFacJN8K/CBs.rf3X7uHHZYG3SFiYBbNCxz8hiPwUCpC', 'Toney', 'Morissette', 28.06230110, -80.55520590, 'profiles/clients/default.png', 'Nihil sit quis dolorum minus qui quia eaque dolore. Laboriosam ea nobis omnis iste. Eaque non et sed at rerum nulla qui. Sit praesentium qui assumenda earum quam qui libero vel.', 0, '123 6th St.  Melbourne, FL 32904', '123 6th St.  Melbourne, FL 32904', NULL, 'Melbourne', 'Florida', 'United States of America', '32904', 1, 1, NULL, '2017-06-12 02:35:36', '2017-07-24 01:22:10'),
 (14, 'unaibamir', 'u.amir@smartbaba.com', '$2y$10$CJy6rxFWGk.tKEwrigKxsep4zRMyQ9q0/T7lL8g8D3P7vBzypOnVK', 'Unaib', 'Amir', 33.56255630, 73.14997640, 'profiles/clients/default.png', 'Test Bio', 0, 'Street # 1, C Block Soan Gardens', 'house # 410, Street # 87, Sector G-11/3, house # 410, Street # 87, Sector G-11/3', '3216646236', 'Dallas', 'Texas', 'United States of America', '75001', 0, 1, 'soPtoU6GTnC9C6u9WmSdJs205Z0y2Dt7tJLNjKRm1JqcEZXQND1Dcg7Gj5hq', '2017-06-13 05:25:09', '2017-07-24 00:49:51'),
 (16, 'test123', 'test123@test.com', '$2y$10$sVUZUmDDf.5FKi/eU3klG.Dcl4MkuGy206ywB8Z5zWloCylt3ItlS', 'Unaib', 'Amir', NULL, NULL, 'profiles/clients/default.png', 'TEST BIO', 0, NULL, 'house # 410, Street # 87, Sector G-11/3', '3216646236', 'Islamabad', 'Alabama', 'United States of America', '44000', 0, 0, NULL, '2017-07-25 02:57:33', '2017-07-25 02:57:33'),
@@ -152,7 +152,7 @@ CREATE TABLE `contracts` (
   `proposal_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `provider_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL COMMENT '0=qued|1=inpogress|2=completed',
+  `status` int(11) NOT NULL COMMENT '0=inpogress|2=completed',
   `start_time` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `end_time` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -166,7 +166,9 @@ CREATE TABLE `contracts` (
 --
 
 INSERT INTO `contracts` (`id`, `proposal_id`, `client_id`, `provider_id`, `status`, `start_time`, `end_time`, `amount`, `created_at`, `updated_at`, `job_id`) VALUES
-(1, 1, 3, 1, 2, '123', '123', '234', '2017-08-07 10:23:00', NULL, 1);
+(1, 1, 3, 1, 2, '123', '123', '234', '2017-08-07 10:23:00', NULL, 1),
+(3, 8, 3, 1, 2, '1502455643', '', '277', '2017-08-11 07:47:23', '2017-08-11 09:49:15', 6),
+(4, 10, 3, 1, 2, '1502464430', '', '350', '2017-08-11 10:13:50', '2017-08-11 10:18:42', 10);
 
 -- --------------------------------------------------------
 
@@ -187,6 +189,7 @@ CREATE TABLE `jobs` (
   `exp_level` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `job_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'any',
   `address` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `st_address` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lat` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lng` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -201,13 +204,14 @@ CREATE TABLE `jobs` (
 -- Dumping data for table `jobs`
 --
 
-INSERT INTO `jobs` (`id`, `title`, `slug`, `desc`, `cat_id`, `client_id`, `phone`, `date`, `time`, `exp_level`, `job_type`, `address`, `lat`, `lng`, `state`, `city`, `status`, `end_date`, `created_at`, `updated_at`) VALUES
-(1, 'Need a work to be done', 'need-a-work-to-be-done', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis interdum hendrerit. Curabitur lectus ex, egestas vitae eros eget, varius dictum elit. Ut tempor, sem consequat rutrum vehicula, sapien lacus porta neque, eu vestibulum magna sapien at sapien. In hac habitasse platea dictumst. In nisi nisi, porta et venenatis eget, venenatis non tortor. Sed posuere felis ac dapibus faucibus. Donec lacinia nunc semper bibendum finibus. Nulla malesuada, ipsum id commodo euismod, ligula ligula mattis tortor, a varius felis purus vel purus. In nec nunc nec est tristique interdum. Pellentesque turpis enim, dignissim non placerat in, posuere ac nunc. Maecenas lacinia justo ac massa hendrerit, at cursus nisl tempus. Vestibulum justo ligula, fermentum non venenatis eget, dapibus vitae diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras tempus, magna non auctor aliquet, sem dui auctor nunc, sed auctor dolor urna eu turpis.', 1, 3, '123456789', '08/15/2017', '16:00', 'any', 'any', '10011', '40.7464969', '-74.0094471', 'New York', 'Manhattan', 2, '1503756761', '2017-08-03 05:45:29', '2017-08-03 05:45:29'),
-(3, 'Need handyman', 'need-handyman', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.', 3, 3, '+12312312345', '08/10/2017', '17:40', 'entry', 'fixed', '38343', '35.8449956', '-88.9222277', 'Tennessee', 'Humboldt', 0, '08/22/2017', '2017-08-03 10:56:06', '2017-08-03 10:56:06'),
-(5, 'Need another guy for a small job', 'need-another-guy-for-a-small-job', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.', 5, 3, '+12342342345', '08/15/2017', '18:00', 'exp', 'hourly', '80239', '39.8086537', '-104.8337879', 'Colorado', 'Denver', 0, '08/31/2017', '2017-08-03 12:01:04', '2017-08-03 12:01:04'),
-(6, 'Need andother job urgent', 'need-andother-job-urgent', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis interdum hendrerit. Curabitur lectus ex, egestas vitae eros eget, varius dictum elit. Ut tempor, sem consequat rutrum vehicula, sapien lacus porta neque, eu vestibulum magna sapien at sapien. In hac habitasse platea dictumst. In nisi nisi, porta et venenatis eget, venenatis non tortor. Sed posuere felis ac dapibus faucibus. Donec lacinia nunc semper bibendum finibus. Nulla malesuada, ipsum id commodo euismod, ligula ligula mattis tortor, a varius felis purus vel purus. In nec nunc nec est tristique interdum. Pellentesque turpis enim, dignissim non placerat in, posuere ac nunc. Maecenas lacinia justo ac massa hendrerit, at cursus nisl tempus. Vestibulum justo ligula, fermentum non venenatis eget, dapibus vitae diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras tempus, magna non auctor aliquet, sem dui auctor nunc, sed auctor dolor urna eu turpis.', 9, 3, '+12342342345', '08/14/2017', '10:30', 'entry', 'any', '90001', '33.9697897', '-118.2468148', 'California', 'Los Angeles', 0, '08/24/2017', '2017-08-03 12:03:36', '2017-08-03 12:03:36'),
-(7, 'Need a plumber for work to be done - updated', 'need-a-plumber-for-work-to-be-done-updated-1', '<p><font color=\"#222222\">ASDSAD ASDAS</font></p><p><font color=\"#222222\">ASDasdasdasdasd</font></p><p><font color=\"#222222\">asdasdasdas sda asd asd asddas</font></p>', 5, 3, '+12342342345', '08/14/2017', '08:00', 'entry', 'any', '90002', '33.9511133', '-118.2497386', 'California', 'Los Angeles', 0, '08/22/2017', '2017-08-04 02:56:26', '2017-08-09 05:58:55'),
-(9, 'Test Job 123', 'test-job-123-1', '<p>This is a test job description.&nbsp;</p><p>It has some HTML formats. <b>TEST</b></p><p><u>Another test.</u></p>', 8, 3, '19879789876', '08/08/2017', '14:50', 'entry', 'any', '90001', '33.9697897', '-118.2468148', 'California', 'Los Angeles', 0, '08/29/2017', '2017-08-07 08:55:28', '2017-08-09 04:48:02');
+INSERT INTO `jobs` (`id`, `title`, `slug`, `desc`, `cat_id`, `client_id`, `phone`, `date`, `time`, `exp_level`, `job_type`, `address`, `st_address`, `lat`, `lng`, `state`, `city`, `status`, `end_date`, `created_at`, `updated_at`) VALUES
+(1, 'Need a work to be done', 'need-a-work-to-be-done', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis interdum hendrerit. Curabitur lectus ex, egestas vitae eros eget, varius dictum elit. Ut tempor, sem consequat rutrum vehicula, sapien lacus porta neque, eu vestibulum magna sapien at sapien. In hac habitasse platea dictumst. In nisi nisi, porta et venenatis eget, venenatis non tortor. Sed posuere felis ac dapibus faucibus. Donec lacinia nunc semper bibendum finibus. Nulla malesuada, ipsum id commodo euismod, ligula ligula mattis tortor, a varius felis purus vel purus. In nec nunc nec est tristique interdum. Pellentesque turpis enim, dignissim non placerat in, posuere ac nunc. Maecenas lacinia justo ac massa hendrerit, at cursus nisl tempus. Vestibulum justo ligula, fermentum non venenatis eget, dapibus vitae diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras tempus, magna non auctor aliquet, sem dui auctor nunc, sed auctor dolor urna eu turpis.', 1, 3, '123456789', '08/15/2017', '16:00', 'any', 'any', '10011', NULL, '40.7464969', '-74.0094471', 'New York', 'Manhattan', 2, '1503756761', '2017-08-03 05:45:29', '2017-08-03 05:45:29'),
+(3, 'Need handyman', 'need-handyman', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.', 3, 3, '+12312312345', '08/10/2017', '17:40', 'entry', 'fixed', '38343', NULL, '35.8449956', '-88.9222277', 'Tennessee', 'Humboldt', 0, '08/22/2017', '2017-08-03 10:56:06', '2017-08-03 10:56:06'),
+(5, 'Need another guy for a small job', 'need-another-guy-for-a-small-job', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros velit, molestie id elit sit amet, venenatis convallis massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris rutrum justo non neque congue, id malesuada velit convallis. Phasellus condimentum cursus ligula, eu sodales lorem elementum sed. Integer ullamcorper gravida augue et ultrices. Nunc molestie placerat turpis, id pretium lacus viverra sit amet. Morbi luctus volutpat neque sed congue.', 5, 3, '+12342342345', '08/15/2017', '18:00', 'exp', 'hourly', '80239', NULL, '39.8086537', '-104.8337879', 'Colorado', 'Denver', 0, '08/31/2017', '2017-08-03 12:01:04', '2017-08-03 12:01:04'),
+(6, 'Need andother job urgent', 'need-andother-job-urgent', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis interdum hendrerit. Curabitur lectus ex, egestas vitae eros eget, varius dictum elit. Ut tempor, sem consequat rutrum vehicula, sapien lacus porta neque, eu vestibulum magna sapien at sapien. In hac habitasse platea dictumst. In nisi nisi, porta et venenatis eget, venenatis non tortor. Sed posuere felis ac dapibus faucibus. Donec lacinia nunc semper bibendum finibus. Nulla malesuada, ipsum id commodo euismod, ligula ligula mattis tortor, a varius felis purus vel purus. In nec nunc nec est tristique interdum. Pellentesque turpis enim, dignissim non placerat in, posuere ac nunc. Maecenas lacinia justo ac massa hendrerit, at cursus nisl tempus. Vestibulum justo ligula, fermentum non venenatis eget, dapibus vitae diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras tempus, magna non auctor aliquet, sem dui auctor nunc, sed auctor dolor urna eu turpis.', 9, 3, '+12342342345', '08/14/2017', '10:30', 'entry', 'any', '90001', NULL, '33.9697897', '-118.2468148', 'California', 'Los Angeles', 2, '08/24/2017', '2017-08-03 12:03:36', '2017-08-11 09:49:15'),
+(7, 'Need a plumber for work to be done - updated', 'need-a-plumber-for-work-to-be-done-updated-1', '<p><font color=\"#222222\">ASDSAD ASDAS</font></p><p><font color=\"#222222\">ASDasdasdasdasd</font></p><p><font color=\"#222222\">asdasdasdas sda asd asd asddas</font></p>', 5, 3, '+12342342345', '08/14/2017', '08:00', 'entry', 'any', '90002', NULL, '33.9511133', '-118.2497386', 'California', 'Los Angeles', 0, '08/22/2017', '2017-08-04 02:56:26', '2017-08-09 05:58:55'),
+(9, 'Test Job 123', 'test-job-123-1', '<p>This is a test job description. </p><p>It has some HTML formats. <b>TEST</b></p><p><u>Another test.</u></p>', 8, 3, '19879789876', '08/08/2017', '14:50', 'entry', 'any', '90001', '8003 Parmelee Ave, Los Angeles, CA 90001', '33.9697897', '-118.2468148', 'California', 'Los Angeles', 0, '08/29/2017', '2017-08-07 08:55:28', '2017-08-11 08:56:07'),
+(10, 'TEST job 11-8-2017', 'test-job-11-8-2017', '<p>This is a test job description. This is a test job description. This is a test job description. This is a test job description. This is a test job description.&nbsp;</p><p>This is a test job description. This is a test job description. This is a test job description. This is a test job description. This is a test job description.&nbsp;</p><p>This is a test job description. This is a test job description. This is a test job description. This is a test job description. This is a test job description. This is a test job description. This is a test job description.&nbsp;<br></p>', 10, 3, '+12342342345', '08/13/2017', '16:24', 'inter', 'fixed', '90001', '8003 Parmelee Ave, Los Angeles, CA 90001', '33.9697897', '-118.2468148', 'California', 'Los Angeles', 2, '08/23/2017', '2017-08-11 09:56:01', '2017-08-11 10:18:42');
 
 -- --------------------------------------------------------
 
@@ -273,7 +277,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (55, '2017_08_06_192730_alter_exp_level_column_jobs_table', 37),
 (56, '2017_08_07_202410_alter_columns_proposals_table', 38),
 (57, '2017_08_09_124120_add_column_status_contracts_table', 39),
-(58, '2017_08_10_064439_add_labour_and_material_cost_columns_proposals_table', 40);
+(58, '2017_08_10_064439_add_labour_and_material_cost_columns_proposals_table', 40),
+(59, '2017_08_11_081028_create_columns_end_time_end_date_proposals_table', 41),
+(60, '2017_08_11_135042_add_column_st_address_jobs', 42);
 
 -- --------------------------------------------------------
 
@@ -309,6 +315,8 @@ CREATE TABLE `proposals` (
   `material_cost` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `labour_cost` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `amount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_time` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -318,10 +326,11 @@ CREATE TABLE `proposals` (
 -- Dumping data for table `proposals`
 --
 
-INSERT INTO `proposals` (`id`, `job_id`, `client_id`, `pro_id`, `desc`, `material_cost`, `labour_cost`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 1, 'test', '184', '50', '234', 0, '2017-08-07 05:00:00', NULL),
-(5, 5, 3, 1, 'test proposal desc', '500', '50', '550', 0, '2017-08-07 11:00:00', '2017-08-09 06:24:59'),
-(6, 7, 3, 1, 'This is a test desc.', '300', '100', '400', 0, '2017-08-10 05:00:00', NULL);
+INSERT INTO `proposals` (`id`, `job_id`, `client_id`, `pro_id`, `desc`, `material_cost`, `labour_cost`, `amount`, `end_date`, `end_time`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 1, 'test', '184', '50', '234', NULL, NULL, 0, '2017-08-07 05:00:00', NULL),
+(5, 9, 3, 1, 'test proposal desc', '500', '50', '550', NULL, NULL, 0, '2017-08-07 11:00:00', '2017-08-09 06:24:59'),
+(8, 6, 3, 1, '', '234', '43', '277', '08/29/2017', '21:35', 0, '2017-08-11 05:12:42', '2017-08-11 05:12:42'),
+(10, 10, 3, 1, '', '250', '100', '350', '08/22/2017', '20:30', 0, '2017-08-11 10:12:41', '2017-08-11 10:12:41');
 
 -- --------------------------------------------------------
 
@@ -537,22 +546,22 @@ ALTER TABLE `clients_meta`
 -- AUTO_INCREMENT for table `contracts`
 --
 ALTER TABLE `contracts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `proposals`
 --
 ALTER TABLE `proposals`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `providers`
 --

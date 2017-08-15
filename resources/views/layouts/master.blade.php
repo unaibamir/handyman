@@ -89,7 +89,7 @@
                           </a>
 
                           <ul class="dropdown-menu" aria-labelledby="dLabel">
-                              <li><a href="{{ route('client.dashboard') }}">Dashboard</a></li>
+                              <li><a href="{{ route('provider.dashboard') }}">Dashboard</a></li>
                               <li><a href="{{ route('client.logout') }}">Logout</a></li>
                           </ul>
                       </div>

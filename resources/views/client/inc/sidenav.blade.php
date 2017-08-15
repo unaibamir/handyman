@@ -27,8 +27,14 @@
         </li>
         <li class="{{ (\Request::route()->getName() == 'client.open-jobs' ) ? 'active' : '' }}">
             <a href="{{ route('client.open-jobs') }}">
-                <i class="fa fa-folder-open-o"></i>
+                <i class="fa fa-folder-o"></i>
                 Open Jobs
+            </a>
+        </li>
+        <li class="{{ (\Request::route()->getName() == 'client.jobs-in-progress' ) ? 'active' : '' }}">
+            <a href="{{ route('client.jobs-in-progress') }}">
+                <i class="fa fa-folder-open-o"></i>
+                Jobs In Progress
             </a>
         </li>
         <li class="{{ (\Request::route()->getName() == 'client.closed-jobs' ) ? 'active' : '' }}">

@@ -110,7 +110,7 @@ class JobsController extends Controller
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-            $perPage = 2;
+            $perPage = 10;
             $currentPageSearchResults = $open_jobs->slice(($currentPage - 1) * $perPage, $perPage)->all();
             $entries = new LengthAwarePaginator($currentPageSearchResults, count($open_jobs), $perPage);
 

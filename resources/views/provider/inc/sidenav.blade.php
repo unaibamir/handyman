@@ -27,9 +27,16 @@
             </a>
         </li>
 
+        <li class="{{ (\Request::route()->getName() == 'provider.jobs-in-progress' ) ? 'active' : '' }}">
+            <a href="{{ route('provider.jobs-in-progress') }}">
+                <i class="fa fa-folder-open-o"></i>
+                Jobs In Progress
+            </a>
+        </li>
+
         <li class="{{ (\Request::route()->getName() == 'provider.qued-jobs' ) ? 'active' : '' }}">
             <a href="{{ route('provider.qued-jobs') }}">
-                <i class="fa fa-folder-open-o"></i>
+                <i class="fa fa-folder-o"></i>
                 Qued Jobs
             </a>
         </li>

@@ -59,8 +59,9 @@
                                                                 <button type="button" class="btn btn-warning btn-sm dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                                                                 <ul class="dropdown-menu dropdown-menu-right">
                                                                     <li class="dropdown-header">Action</li>
-                                                                    <li><a href="{{ route('client.job-proposal-award', [$proposal->job_id, $proposal->id]) }}">Award Job</a></li>
-                                                                    <li><a href="{{ route('client.job-proposal-reject', [$proposal->job_id, $proposal->id]) }}">Reject Proposal</a></li>
+                                                                    <li><a href="{{ route('client.view-proposal', [$proposal->job_id, $proposal->id]) }}">View Quotation</a></li>
+                                                                    {{--<li><a href="{{ route('client.job-proposal-award', [$proposal->job_id, $proposal->id]) }}">Award Job</a></li>
+                                                                    <li><a href="{{ route('client.job-proposal-reject', [$proposal->job_id, $proposal->id]) }}">Reject Proposal</a></li>--}}
                                                                     <li role="separator" class="divider"></li>
                                                                     <li><a href="{{ route('client.job-proposal-delete', $proposal->id) }}">Delete</a></li>
                                                                 </ul>

@@ -16,7 +16,7 @@
 
                 <div class="col-md-9 col-sm-12">
 
-                    <div class="custom-padding">
+                    <div class="custom-padding job_feaures">
                         @if($job->status != 0)
                         <div class="alert alert-danger m-lg-bottom">
                             <strong>This job is no longer available</strong>
@@ -32,7 +32,7 @@
 
                         <div class="clearfix"></div><br />
 
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="pull-left">
                                 <span class="fa fa-clock-o fa-2x" style="color: #ccc;"></span>
                             </div>
@@ -51,7 +51,7 @@
                             <div class="clearfix"></div>
                         </div>
 
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="pull-left">
                                 <span class="fa fa-usd fa-2x" style="color: #ccc;"></span>
                             </div>
@@ -70,7 +70,7 @@
                             <div class="clearfix"></div>
                         </div>
 
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-4 col-sm-4">
                             <div class="pull-left">
                                 <span class="fa fa-calendar fa-2x" style="color: #ccc;"></span>
                             </div>
@@ -82,20 +82,50 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="col-md-3 col-sm-3">
-                            <div class="pull-left">
-                                <span class="fa fa-calendar fa-2x" style="color: #ccc;"></span>
+                        @if( Auth::guard('provider')->check() )
+                            <div class="col-md-4 col-sm-4">
+                                <div class="pull-left">
+                                    <span class="fa fa-calendar fa-2x" style="color: #ccc;"></span>
+                                </div>
+                                <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
+                                    <p class="m-0-bottom"><strong>Date/Time to Approch</strong></p>
+                                    <small class="text-muted">
+                                        {{ Carbon\Carbon::parse($job->date)->format('m/d/Y') }}
+                                        <br>
+                                        {{ Carbon\Carbon::parse($job->time)->format('g:i A') }}
+                                    </small>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
-                                <p class="m-0-bottom"><strong>Date/Time to Approch</strong></p>
-                                <small class="text-muted">
-                                    {{ Carbon\Carbon::parse($job->date)->format('m/d/Y') }}
-                                    <br>
-                                    {{ Carbon\Carbon::parse($job->time)->format('g:i A') }}
-                                </small>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="pull-left">
+                                    <span class="fa fa-map-marker fa-2x" style="color: #ccc;"></span>
+                                </div>
+                                <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
+                                    <p class="m-0-bottom"><strong>Location</strong></p>
+                                    <small class="text-muted">
+                                        {{ $job->address }}
+                                        <br>
+                                        {{ $job->city }}
+                                    </small>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
+                            @if($job->st_address != '')
+                            <div class="col-md-4 col-sm-4">
+                                <div class="pull-left">
+                                    <span class="fa fa-map-marker fa-2x" style="color: #ccc;"></span>
+                                </div>
+                                <div class="pull-left m-sm-left m-md-bottom col-md-10 p-0-left-right">
+                                    <p class="m-0-bottom"><strong>Street Address</strong></p>
+                                    <small class="text-muted">
+                                        {{ $job->st_address }}
+                                    </small>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            @endif
+                        @endif
 
                         <div class="clearfix"></div>
                     </div><!--custom padding-->
@@ -232,19 +262,24 @@
 
                             @elseif( Auth::guard('provider')->check()  )
                                 @if(check_already_applied( Auth::guard('provider')->id(), $job->id ) == true )
+
+                                    <a href="{{ route('provider.qued-jobs') }}" class="btn btn-default btn-signup pull-left">
+                                        See Applied Jobs
+                                    </a>
+                                    <div class="clearfix"></div><br>
                                     <p>
                                         You have already picked this job.
                                     </p>
-                                    <a href="{{ route('provider.qued-jobs') }}" class="btn btn-default btn-signup pull-right">
-                                        See Applied Jobs
-                                    </a>
                                 @else
-                                <form action="{{ route('provider.pick-job', $job->id) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="job_id" value="{{ base64_encode($job->id) }}">
-                                    <input type="hidden" name="client_id" value="{{ base64_encode($job->client->id) }}">
-                                    <button class="btn btn-default btn-signup pull-right" style="width: 100%;">Pick job</button>
-                                </form>
+
+                                    <form action="{{ route('provider.pick-job', $job->id) }}" method="GET" class="">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="job_id" value="{{ base64_encode($job->id) }}">
+                                        <input type="hidden" name="client_id" value="{{ base64_encode($job->client->id) }}">
+                                        <input type="hidden" name="provider_id" value="{{ base64_encode( Auth::guard('provider')->id() ) }}">
+                                        <button class="btn btn-default btn-signup pull-right" style="width: 100%;">Pick job</button>
+                                    </form>
+
                                 @endif
 
                             @else
@@ -304,27 +339,21 @@
 
                                 <strong>
                                     <span ng-bind="1176.01 | moneyRange" class="ng-binding">
-                                        ${{ $job->client->contract->sum('amount') }}
+                                        ${{ $job->client->contract->where('status','=',2)->sum('amount') }}
                                     </span>
                                     Total Spent
                                 </strong><br>
-                                {{--<span class="text-muted">
-                                    10
-                                    Hires,
-                                    5
-                                    Active
-                                </span>--}}
                             </p>
-                            {{--<p class="m-md-bottom">
+                            @if( Auth::guard('provider')->check() )
+                            <p class="m-md-bottom">
                                 <strong>
-                                    $11.90<span class="text-muted normal">/hr</span>
-                                    Avg Hourly Rate Paid
+                                    Contact Info
                                 </strong><br>
                                 <span class="text-muted">
-                                    41
-                                    Hours
+                                    Ph. <a href="tel:{{ $job->phone }}">{{ $job->phone }}</a>
                                 </span>
-                            </p>--}}
+                            </p>
+                            @endif
                             <small class="text-muted">
                                 Member Since {{ Carbon\Carbon::parse($job->client->created_at)->format('F Y') }}
                             </small>

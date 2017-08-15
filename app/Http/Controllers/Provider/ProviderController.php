@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Proposal;
+use function base64_decode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Auth;
 use App\Provider;
 use App\Contract;
+use App\Job;
 use function redirect;
 use Validator;
 use Mail;
-use function view;
+
 
 class ProviderController extends Controller
 {
@@ -31,6 +33,7 @@ class ProviderController extends Controller
         $data['provider'] = $provider;
 
         $contracts = Contract::where('provider_id', '=', $provider_id)
+            ->where('status','=', 2)
             ->with(['job'])
             ->limit(5)
             ->get();
@@ -41,6 +44,7 @@ class ProviderController extends Controller
             ->join('jobs', 'jobs.id', '=', 'proposals.job_id')
             ->where('jobs.status', '=', '0')
             ->select('proposals.*')
+            ->orderBy('proposals.id','desc')
             ->with(['job'])
             ->limit(5)
             ->get();
@@ -113,12 +117,35 @@ class ProviderController extends Controller
         $data['provider'] = $provider;
 
         $completed_jobs = Contract::where('provider_id', '=', $provider_id)
+            ->where('status', '=', 2)
             ->with(['job'])
             ->paginate(10);
         $data['completed_jobs'] = $completed_jobs;
 
         return view('provider.completed-jobs')->with($data);
 
+    }
+
+    public function getOnGoingJobs() {
+
+        $data = array();
+
+        $provider_id = Auth::guard('provider')->id();;
+        $provider = Provider::find($provider_id);
+
+
+        $ongoing_jobs = Contract::where('status','=',0)
+            ->orderBy('id', 'desc')
+            ->with(['job'])
+            ->paginate(10);
+
+        //dd($ongoing_jobs);
+
+
+        $data['ongoing_jobs'] = $ongoing_jobs;
+        $data['provider'] = $provider;
+
+        return view('provider.ongoing-jobs')->with($data);
     }
 
     public function getQuedJobs() {
@@ -134,6 +161,7 @@ class ProviderController extends Controller
             ->join('jobs', 'jobs.id', '=', 'proposals.job_id')
             ->where('jobs.status', '=', '0')
             ->select('proposals.*')
+            ->orderBy('proposals.id','desc')
             ->with(['job'])
             ->paginate(10);
 
@@ -163,7 +191,7 @@ class ProviderController extends Controller
 
 
         $report= Contract::where('job_id', '=', $id)->first();
-
+        //dd($report);
         $data['report'] = $report;
 
 
@@ -172,8 +200,76 @@ class ProviderController extends Controller
     }
 
 
+    public function getPickJob(Request $request) {
+        $data =array();
+        // TODO - Send notificiations when applied on job
+
+        $provider = Auth::guard('provider')->user();
+        $data['provider'] = $provider;
+
+        $job_id = base64_decode($request->job_id);
+        $client_id = base64_decode($request->client_id);
+        $provider_id = base64_decode($request->provider_id);
+
+        $proposal = Proposal::where('job_id', '=', $job_id)
+            ->where('client_id', '=', $client_id)
+            ->where('pro_id', '=', $provider_id)
+            ->get();
+
+        $data['job_id'] = $job_id;
+        $data['client_id'] = $client_id;
+        $data['provider_id'] = $provider_id;
+
+
+        if( $proposal->isEmpty() ) {
+            // Submit the proposal
+
+            $data['job'] = Job::find($job_id)->first();
+
+
+            $data['proposal'] = $proposal;
+            return view('provider.quote-submit')->with($data);
+        }
+        else {
+            // Show error message
+            Session::flash('error', 'You have already applied on this job');
+            return redirect()->route('provider.dashboard');
+        }
+    }
+
     public function postPickJob(Request $request) {
-        return redirect()->back();
+
+        $job_id = base64_decode($request->job_id);
+        $client_id = base64_decode($request->client_id);
+        $provider_id = base64_decode($request->provider_id);
+
+        $proposal = Proposal::where('job_id', '=', $job_id)
+            ->where('client_id', '=', $client_id)
+            ->where('pro_id', '=', $provider_id)
+            ->get();
+
+        if( !$proposal->isEmpty() ) {
+            // Show error message
+            Session::flash('error', 'You have already applied on this job');
+            return redirect()->route('provider.dashboard');
+        }
+
+        $proposal = new Proposal();
+        $proposal->job_id = base64_decode($request->job_id);
+        $proposal->client_id = base64_decode($request->client_id);
+        $proposal->pro_id = base64_decode($request->provider_id);
+        $proposal->desc = '';
+        $proposal->material_cost = $request->material_cost;
+        $proposal->labour_cost = $request->labour_cost;
+        $proposal->amount = $request->total_cost;
+        $proposal->end_date = $request->end_date;
+        $proposal->end_time = $request->end_time;
+        $proposal->status = 0;
+        $proposal->save();
+
+        Session::flash('success', 'Your quotation has been submitted successfully!');
+        return redirect()->route('provider.dashboard');
+
     }
 
 }

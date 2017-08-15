@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Client Dashboard')
+@section('page_title', 'Jobs In Progress')
 
 @section('content')
     <div id="content">
@@ -19,14 +19,11 @@
                         <div class="col-md-12">
                             <div class="widget">
                                 <div class="widget-header">
-                                    <h3>Recent Open Jobs</h3>
+                                    <h3>Jobs In Progress</h3>
                                 </div> <!-- /widget-header -->
                                 <div class="widget-content">
-                                    @if($client->time <= 1)
-                                        {{--<p>your first job is free</p> TODO -- Correct this one  --}}
-                                    @endif
 
-                                    @if( !$open_jobs->isEmpty() )
+                                    @if( !$ongoing_jobs->isEmpty() )
 
                                         <div class="table-responsives">
                                             <table class="table table-hover table-bordered">
@@ -35,56 +32,14 @@
                                                     <th>#</th>
                                                     <th>Date</th>
                                                     <th>Job Title</th>
+                                                    {{--<th>HandyMan</th>--}} {{-- TODO --}}
                                                     <th>Category</th>
                                                     <th>Proposals</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($open_jobs as $job)
-                                                <tr>
-                                                    <td class="col-md-1">{{ $loop->iteration }}</td>
-                                                    <td class="col-md-1">{{ date('d-m-Y', strtotime($client->created_at)) }}</td>
-                                                    <td class="col-md-3">
-                                                        <a href="{{ route('job.single', [$job->slug, $job->id]) }}" target="_blank">
-                                                            {{ $job->title }}
-                                                        </a>
-                                                    </td>
-                                                    <td class="col-md-2">{{ $job->category->name }}</td>
-                                                    <td class="col-md-2">{{ $job->proposals->count() }}</td>
-                                                </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    @else
-                                        <div class="alert alert-warning" role="alert">
-                                            <p>Sorry! There are no recent opened jobs.</p>
-                                        </div>
-                                    @endif
-
-                                </div> <!-- /widget-content -->
-                            </div> <!-- /widget -->
-                            <div class="widget">
-                                <div class="widget-header">
-                                    <h3>Recent Closed Jobs</h3>
-                                </div> <!-- /widget-header -->
-                                <div class="widget-content">
-
-                                    @if( !$completed_jobs->isEmpty() )
-
-                                        <div class="table-responsives">
-                                            <table class="table table-hover table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Date</th>
-                                                    <th>Job Title</th>
-                                                    <th>Category</th>
-                                                    <th>Proposals</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($completed_jobs as $job)
+                                                @foreach($ongoing_jobs as $job)
                                                     <tr>
                                                         <td class="col-md-1">{{ $loop->iteration }}</td>
                                                         <td class="col-md-1">{{ date('d-m-Y', strtotime($client->created_at)) }}</td>
@@ -95,19 +50,32 @@
                                                         </td>
                                                         <td class="col-md-2">{{ $job->category->name }}</td>
                                                         <td class="col-md-2">{{ $job->proposals->count() }}</td>
+                                                        <td class="col-md-1">
+                                                            <!-- Small button group -->
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <li><a href="{{ route('client.job-contract', $job->id) }}">View Report</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div class="text-right">
+                                            {{ $ongoing_jobs->links() }}
+                                        </div>
                                     @else
                                         <div class="alert alert-warning" role="alert">
-                                            <p>Sorry! There are no recent opened jobs.</p>
+                                            <p>Sorry! There are no jobs here to show you.</p>
                                         </div>
                                     @endif
 
                                 </div> <!-- /widget-content -->
                             </div> <!-- /widget -->
+
                         </div> <!-- /span5 -->
 
                     </div> <!-- /row -->

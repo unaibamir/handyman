@@ -55,6 +55,16 @@
                                                 </div>
 
                                             </div>
+
+                                            <div class="col-md-12 col-sm-12">
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="">Street Address</label>
+                                                    <input type="text" class="form-control field st_address" name="st_address" id="st_address" placeholder="Street Address" required>
+                                                </div>
+
+                                            </div>
+
                                             <div class="col-md-12 col-sm-12">
 
                                                 <div class="form-group">

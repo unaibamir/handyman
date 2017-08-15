@@ -241,20 +241,23 @@
                             @if( Auth::guard('provider')->check() )
 
                                 @if(check_already_applied( Auth::guard('provider')->id(), $job->id ) == true )
-                                    <div class="col-md-8 pull-right">
-                                        <p>
-                                            You have already picked this job.
-                                        </p>
-                                        <a href="{{ route('provider.qued-jobs') }}" class="btn btn-default btn-signup pull-right">
+                                    <div class="col-md-12 pull-right">
+
+                                        <a href="{{ route('provider.qued-jobs') }}" class="btn btn-warning pull-right">
                                             Picked Jobs
                                         </a>
+                                        <div class="clearfix"></div>
+                                        <p class="text-right">
+                                            You have already picked this job.
+                                        </p>
                                     </div>
                                 @else
 
-                                <form action="{{ route('provider.pick-job', $job->id) }}" method="POST" class="col-md-6 pull-right">
+                                <form action="{{ route('provider.pick-job', $job->id) }}" method="GET" class="col-md-6 pull-right">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="job_id" value="{{ base64_encode($job->id) }}">
                                     <input type="hidden" name="client_id" value="{{ base64_encode($job->client->id) }}">
+                                    <input type="hidden" name="provider_id" value="{{ base64_encode( Auth::guard('provider')->id() ) }}">
                                     <button class="btn btn-default btn-signup pull-right" style="width: 100%;">Pick job</button>
                                 </form>
                                 @endif
@@ -263,7 +266,7 @@
 
                             @else
                                 {{-- TODO -- SET THIS UP FOR PROVIDER TO APPLY ON A JOB --}}
-                                <a href="{{ route('job.single', [$job->slug, $job->id] ) }}" class="btn btn-default pull-right"><i class="fa fa-thumbs-down"></i> Not Relevent</a>
+                                <a href="{{--{{ route('job.single', [$job->slug, $job->id] ) }}--}}#" class="btn btn-default pull-right"><i class="fa fa-thumbs-down"></i> Not Relevent</a>
                                 <a href="{{ route('job.single', [$job->slug, $job->id] ) }}" class="btn btn-default btn-signup pull-right"><i class="fa fa-heart-o"></i> Pick a Job
                             @endif
                             </a>

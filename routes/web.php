@@ -117,6 +117,7 @@ Route::prefix('client')->group(function() {
     Route::get('/post-job','Client\ClientController@getJobPost')->name('client.job-post');
     Route::get('/open-jobs','Client\ClientController@getOpenJobs')->name('client.open-jobs');
     Route::get('/completed-jobs','Client\ClientController@getClosedJobs')->name('client.closed-jobs');
+    Route::get('/inprogress-jobs','Client\ClientController@getOnGoingJobs')->name('client.jobs-in-progress');
     Route::post('/post-job','Client\ClientController@postJobPost')->name('client.post-job-post');
 
     Route::get('/job/delete/{id}','Client\ClientController@getDeleteJob')->name('client.delete-job');
@@ -125,10 +126,14 @@ Route::prefix('client')->group(function() {
 
     Route::get('/job/{id}/proposals','Client\ClientController@getJobProposals')->name('client.job-proposal');
     Route::get('/job/{id}/proposals/delete','Client\ClientController@getJobProposalDelete')->name('client.job-proposal-delete');
+    Route::get('/job/{id}/proposal/{proposal_id}', 'Client\ClientController@getProposalSingleView')->name('client.view-proposal');
+
+    Route::get('/job/{id}/proposal/{proposal_id}/accept', 'Client\ClientController@getJobProposalAccept')->name('client.proposal.accept');
     Route::get('/job/{id}/proposal/{slug}/award','Client\ClientController@getJobProposalAward')->name('client.job-proposal-award');
     Route::get('/job/{id}/proposal/{slug}/reject','Client\ClientController@getJobProposalReject')->name('client.job-proposal-reject');
 
     Route::get('/job/{id}/contract','Client\ClientController@getJobContract')->name('client.job-contract');
+    Route::get('/job/{id}/complete/{contract_id}','Client\ClientController@getJobComplete')->name('client.job.complete');
 
 
 
@@ -149,11 +154,13 @@ Route::prefix('provider')->group(function() {
     Route::get('/','Provider\ProviderController@getDashboardPage')->name('provider.main');
 
     Route::get('/completed-jobs','Provider\ProviderController@getCompletedJobs')->name('provider.completed-jobs');
+    Route::get('/inprogress-jobs','Provider\ProviderController@getOnGoingJobs')->name('provider.jobs-in-progress');
     Route::get('/qued-jobs','Provider\ProviderController@getQuedJobs')->name('provider.qued-jobs');
     Route::get('/job/proposal/{id}/delete','Provider\ProviderController@getDeleteQuedJob')->name('provider.delete-qued-job');
     Route::get('/job/report/{id}/contract','Provider\ProviderController@getJobContract')->name('provider.job-contract');
 
-
-    Route::post('pick/{id}/job', 'Provider\ProviderController@postPickJob')->name('provider.pick-job');
+    // Provider Pick job
+    Route::get('pick/{id}/job', 'Provider\ProviderController@getPickJob')->name('provider.pick-job');
+    Route::post('pick/{id}/job', 'Provider\ProviderController@postPickJob')->name('provider.pick-job-post');
 
 });
